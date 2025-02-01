@@ -1,0 +1,11 @@
+services:
+  webapp:
+    build: ./app
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/app
+    environment:
+      NODE_ENV: development
+    stdin_open: true
+    tty: true
