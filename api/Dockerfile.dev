@@ -1,0 +1,14 @@
+FROM python:3.11
+
+WORKDIR /api
+
+COPY requirements/dev.txt requirements/base.txt /api/requirements/
+
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements/dev.txt
+
+COPY . /api
+
+EXPOSE 5000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
