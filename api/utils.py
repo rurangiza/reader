@@ -6,14 +6,13 @@ class Tools:
         pass
 
     def get_weather(self, latitude: str, longitude: str) -> str:
-        # fetch weather based on coordinates
+        """This is a publically available API that returns the weather for a given location."""
         base_url = "https://api.open-meteo.com/v1/forecast"
         query_params = "&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
         response = requests.get(
             f"{base_url}?latitude={latitude}&longitude={longitude}{query_params}"
         )
         data = response.json()
-        # return data
         return data["current"]
 
     def _call_function(self, name, args):

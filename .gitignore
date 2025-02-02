@@ -1,4 +1,7 @@
-.env
+*.env
+*.ipynb
+.venv/
+__pycache__
 # Logs
 logs
 *.log

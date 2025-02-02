@@ -9,3 +9,9 @@ services:
       NODE_ENV: development
     stdin_open: true
     tty: true
+  api:
+    build: ./api
+    ports:
+      - "5050:5000"
+    environment:
+      API_ENV: development
