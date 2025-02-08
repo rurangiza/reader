@@ -2,12 +2,14 @@ FROM python:3.11
 
 WORKDIR /api
 
-COPY requirements/prod.txt requirements/base.txt
+COPY requirements/prod.txt requirements/base.txt ./requirements/
 
-RUN pip install --no-cache-dir -r requirements/prod.txt
+RUN python3 -m pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements/prod.txt
 
 COPY . /api
 
-EXPOSE 5000
+EXPOSE 5050
 
-CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "main:app"]
+# CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "main:app"] # prod
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "main:app", "--reload"]

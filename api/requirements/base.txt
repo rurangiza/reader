@@ -1,4 +1,5 @@
 fastapi[standard]
+gunicorn
 openai
 python-dotenv
 jsons

@@ -1,23 +1,41 @@
-version: 3
-
 services:
-  webapp:
+  webapp-prod:
+    build: ./app
+    ports:
+      - "8080:80"
+    command: nginx -g 'daemon off;'
+    restart: always
+    profiles:
+      - prod
+  webapp-dev:
     build: ./app
     ports:
       - "8080:80"
     volumes:
-      - .:/app
-    environment:
-      NODE_ENV: development
+      - ./app:/app
+    command: nginx -g 'daemon off;'
     restart: always
-    deploy:
-      replicas: 1
-  api:
+    profiles:
+      - dev
+  api-prod:
     build: ./api
     ports:
       - "5050:5000"
+    command: gunicorn -k uvicorn.workers.UvicornWorker -b 0.0.0.0:5000 main:app
     environment:
-      API_ENV: development
+      - PYTHONUNBUFFERED=1
     restart: always
-    deploy:
-      replicas: 1
+    profiles:
+      - prod
+  api-dev:
+    build: ./api
+    ports:
+      - "5050:5000"
+    command: gunicorn -k uvicorn.workers.UvicornWorker -b 0.0.0.0:5000 main:app --reload
+    volumes:
+      - ./api:/api
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: always
+    profiles:
+      - dev
