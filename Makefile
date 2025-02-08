@@ -17,7 +17,7 @@ build:
 
 clean:
 	@echo "$(BLUE)Cleaning$(RESET)"
-	@docker compose down -v
+	@docker compose --profile $(PROFILE) down -v
 
 fclean: clean
 	@docker rmi -f $(APP_IMAGE_NAME)
