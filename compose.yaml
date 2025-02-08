@@ -1,3 +1,5 @@
+version: 3
+
 services:
   webapp:
     build: ./app
@@ -7,11 +9,15 @@ services:
       - .:/app
     environment:
       NODE_ENV: development
-    stdin_open: true
-    tty: true
+    restart: always
+    deploy:
+      replicas: 1
   api:
     build: ./api
     ports:
       - "5050:5000"
     environment:
       API_ENV: development
+    restart: always
+    deploy:
+      replicas: 1
