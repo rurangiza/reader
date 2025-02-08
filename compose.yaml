@@ -8,12 +8,15 @@ services:
     profiles:
       - prod
   webapp-dev:
-    build: ./app
+    build:
+      context: ./app
+      dockerfile: Dockerfile.dev
     ports:
-      - "8080:80"
+      - "8080:3000"
     volumes:
       - ./app:/app
-    command: nginx -g 'daemon off;'
+      - /app/node_modules
+    command: npm run dev
     restart: always
     profiles:
       - dev
@@ -28,7 +31,9 @@ services:
     profiles:
       - prod
   api-dev:
-    build: ./api
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
     ports:
       - "5050:5000"
     command: gunicorn -k uvicorn.workers.UvicornWorker -b 0.0.0.0:5000 main:app --reload

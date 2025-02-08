@@ -7,9 +7,8 @@ COPY requirements/prod.txt requirements/base.txt ./requirements/
 RUN python3 -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements/prod.txt
 
-COPY . /api
+COPY . .
 
 EXPOSE 5050
 
-# CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "main:app"] # prod
-CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "main:app", "--reload"]
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "main:app"]
