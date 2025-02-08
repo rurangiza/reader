@@ -1,24 +1,16 @@
-import { useState } from "react";
 import "./App.css";
+import UploadWindow from "./components/UploadWindow";
+import Container from "./components/Container";
+import { useState } from "react";
 
 function App() {
-  const [counter, setCounter] = useState(0);
-
-  function handleClick() {
-    setCounter(counter + 1);
-  }
+  const [file, setFile] = useState<File | null>(null);
 
   return (
     <>
-      <h1 className="text-red-600">Hello, world {counter} times</h1>
-      <button onClick={handleClick}>Click</button>
-      <button
-        onClick={() => {
-          setCounter(0);
-        }}
-      >
-        Reset
-      </button>
+      <Container>
+        <UploadWindow file={file} setFile={setFile} />
+      </Container>
     </>
   );
 }
