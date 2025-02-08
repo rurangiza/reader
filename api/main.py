@@ -7,7 +7,7 @@ api_router = APIRouter()
 api_router.include_router(upload.router)
 api_router.include_router(chat.router)
 
-FRONTEND_ORIGIN = "http://localhost:5173"
+FRONTEND_ORIGIN = "http://localhost:8080"
 API_STR = "/api"
 
 origins = [
