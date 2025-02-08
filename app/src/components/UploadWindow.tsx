@@ -2,6 +2,8 @@ import file_icon from "../assets/upload-file.svg";
 import Button from "./Button";
 import { FormEvent, ChangeEvent, useState } from "react";
 
+const API_ENDPOINT = 'http://127.0.0.1:8000/api/upload'
+
 interface Props {
   file: File | null;
   setFile: (file: File) => void;
@@ -24,8 +26,34 @@ const UploadWindow = ({ file, setFile }: Props) => {
     }
   }
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
+    if (!file || file.type !== "application/pdf") {
+      alert("Cannot submit this file: either none or not PDF");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("title", fileName);
+
+    try {
+      const response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'x-reader-allowed': 'true'
+        }
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log('Upload successful:', data);
+
+    } catch (error) {
+      alert(`Failed to submit PDF: ${error}`)
+    }
+
   }
 
   const disabled = file ? false : true;

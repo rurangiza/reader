@@ -10,7 +10,8 @@ class Tools:
         base_url = "https://api.open-meteo.com/v1/forecast"
         query_params = "&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
         response = requests.get(
-            f"{base_url}?latitude={latitude}&longitude={longitude}{query_params}"
+            f"{base_url}?latitude={latitude}&longitude={longitude}{query_params}",
+            timeout=10
         )
         data = response.json()
         return data["current"]
