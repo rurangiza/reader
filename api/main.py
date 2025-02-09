@@ -1,11 +1,13 @@
 
-from fastapi import FastAPI, APIRouter
-from routes import upload, chat
-from fastapi.middleware.cors import CORSMiddleware
+import sys
+from pathlib import Path
 
-api_router = APIRouter()
-api_router.include_router(upload.router)
-api_router.include_router(chat.router)
+from fastapi import FastAPI, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
+from routes import upload, chat
+
+BASE_DIR = Path(__file__).resolve()
+sys.path.append(str(BASE_DIR / "src"))
 
 FRONTEND_ORIGIN = "http://localhost:8080"
 API_STR = "/api"
@@ -26,5 +28,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+api_router = APIRouter()
+api_router.include_router(upload.router)
+api_router.include_router(chat.router)
 
 app.include_router(api_router, prefix=API_STR)

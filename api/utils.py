@@ -1,46 +1,18 @@
-import json
-import requests
+from src.parser import PDFParser
+from src.storage import LocalStorage
 
-class Tools:
-    def __init__(self):
-        pass
+def convert_pdf_to_html(content: bytes, title: str) -> str:
+    """ Converts PDFs to HTML while maintaining structure and images """
+    pdfpath = LocalStorage.save(content, title)
+    parser = PDFParser()
+    text, images = parser.parse(pdfpath)
+    LocalStorage.save(text, f"{title}_raw")
+    image_paths: dict[str, str] = LocalStorage.save_images(images)
+    return replace_html_links(text, image_paths)
 
-    def get_weather(self, latitude: str, longitude: str) -> str:
-        """This is a publically available API that returns the weather for a given location."""
-        base_url = "https://api.open-meteo.com/v1/forecast"
-        query_params = "&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
-        response = requests.get(
-            f"{base_url}?latitude={latitude}&longitude={longitude}{query_params}",
-            timeout=10
-        )
-        data = response.json()
-        return data["current"]
-
-    def _call_function(self, name, args):
-        match name:
-            case "GetWeather":
-                return self.get_weather(**args)
-    
-    def _call_tool(self, messages, new_message):
-
-        for tool_call in new_message.tool_calls:
-            name = tool_call.function.name
-            args = json.loads(tool_call.function.arguments)
-            messages.append(new_message)
-
-            result = self._call_function(name, args)
-            messages.append(
-                {
-                    "role": "tool",
-                    "tool_call_id": tool_call.id,
-                    "content": tool_call.content
-                }
-            )
-
-def main():
-    T = Tools()
-    r = T.get_weather("48.8575", "2.3514")
-    print(r)
-
-if __name__ == "__main__":
-    main()
+def replace_html_links(text: str, image_paths: dict) -> str:
+    """ Replace placeholder image text with corresponding links """
+    newtext = text
+    for image_name, image_path in image_paths.items():
+        newtext = newtext.replace(image_name, image_path)
+    return newtext

@@ -1,7 +1,19 @@
 fastapi[standard]
 openai
 python-dotenv
+
 jsons
 requests
 python-multipart
-supabase
+
+########## PARSING
+## Marker
+torch
+torchvision
+marker-pdf==1.3.5
+
+Pillow
+
+## Spacy
+# spacy
+# spacy-layout
