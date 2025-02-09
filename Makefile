@@ -24,7 +24,7 @@ fclean: clean
 	@docker rmi -f $(API_IMAGE_NAME)
 
 reset: fclean
-	find . -type d -name '__pycache__' -exec rm -r {} +
+	find . -not -path '*/.venv/*' -type d -name '__pycache__' -exec rm -r {} +
 	
 re: fclean all
 

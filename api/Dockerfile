@@ -7,6 +7,8 @@ COPY requirements/prod.txt requirements/base.txt ./requirements/
 RUN python3 -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements/prod.txt
 
+RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
 COPY . .
 
 EXPOSE 5050

@@ -1,16 +1,22 @@
 import os
+import sys
+import logging
 
-from termcolor import colored
+logger = logging.getLogger()
 
-class Logger:
-    mode = os.MODE
+formatter = logging.Formatter(
+    fmt=" %(levelname)s - %(message)s"
+)
 
-    def info(self, message: str, color='cyan') -> None:
-        print(
-            colored(f"{message}", color)
-        )
-    
-    def error(self, message: str, color='red') -> None:
-        print(
-            colored(f"{message}", color)
-        )
+stream_handler = logging.StreamHandler(sys.stdout)
+file_handler = logging.FileHandler('app.log')
+
+stream_handler.setFormatter(formatter)
+file_handler.setFormatter(formatter)
+
+logger.handlers = [
+    stream_handler,
+    file_handler
+]
+
+logger.setLevel(logging.INFO)

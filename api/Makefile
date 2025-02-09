@@ -11,7 +11,7 @@ all: run
 
 run:
 	@echo "Starting the server (Makefile)"
-	uvicorn $(ENTRYPOINT):app --reload
+	uvicorn $(ENTRYPOINT):app --reload --reload-include="*.py" --reload-exclude=".venv/*" --port $(PORT_OUT)
 
 install:
 	@echo "Installing dependencies"
