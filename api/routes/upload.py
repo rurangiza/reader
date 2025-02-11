@@ -1,9 +1,10 @@
-
 from pydantic import BaseModel
 from fastapi import APIRouter, File, Form, UploadFile, HTTPException
 
 from src.storage import LocalStorage
-from utils import convert_pdf_to_html
+from src.utils import convert_pdf_to_html, normalize_title
+
+from typing import Dict
 
 MAX_FILE_SIZE = 10 * 1024 * 1024
 
@@ -34,8 +35,9 @@ async def handle_pdf_uploads(file: UploadFile = File(...), title: str = Form(...
                 status_code=400,
                 detail="File too large. Maximum size is 10MB"
             )
-        html: str = convert_pdf_to_html(pdf, title)
-        LocalStorage.save(html, f"{title}_processed")
+        titles: Dict[str, str] = normalize_title(title)
+        html: str = convert_pdf_to_html(pdf, titles['normalized'])
+        LocalStorage.save(html, f"{titles['normalized']}_processed")
     except (IOError, OSError) as e:
         raise HTTPException(
             status_code=500,

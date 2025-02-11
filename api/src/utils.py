@@ -1,7 +1,11 @@
+from PyPDF2 import PdfReader
+
 from src.parser import PDFParser
 from src.storage import LocalStorage
 
-def convert_pdf_to_html(content: bytes, title: str) -> str:
+from typing import Dict
+
+def convert_pdf_to_html(content: bytes, title: Dict[str, str]) -> str:
     """ Converts PDFs to HTML while maintaining structure and images """
     pdfpath = LocalStorage.save(content, title)
     parser = PDFParser()
@@ -16,3 +20,16 @@ def replace_html_links(text: str, image_paths: dict) -> str:
     for image_name, image_path in image_paths.items():
         newtext = newtext.replace(image_name, image_path)
     return newtext
+
+def normalize_title(file: str | bytes):
+    reader = PdfReader(file)
+    meta = reader.metadata
+    title, author, year = [
+        str(meta.title),
+        str(meta.author),
+        str(meta.creation_date.year)
+    ]
+    return {
+        "original": title,
+        "normalized": f"{title}-{author}({year})".lower().replace(" ", "_")
+    }
