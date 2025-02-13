@@ -1,8 +1,6 @@
 import sys
 import logging
 
-logger = logging.getLogger()
-
 formatter = logging.Formatter(
     fmt=" %(levelname)s - %(message)s"
 )
@@ -12,6 +10,8 @@ file_handler = logging.FileHandler('app.log')
 
 stream_handler.setFormatter(formatter)
 file_handler.setFormatter(formatter)
+
+logger = logging.getLogger()
 
 logger.handlers = [
     stream_handler,
