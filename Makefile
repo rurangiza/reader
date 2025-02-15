@@ -4,6 +4,7 @@ PROFILE 		:= dev
 
 API_IMAGE_NAME 	:= $(NAME)-api-$(PROFILE)
 APP_IMAGE_NAME 	:= $(NAME)-webapp-$(PROFILE)
+DB_IMAGE_NAME 	:= $(NAME)-neo4j-$(PROFILE)
 
 BLUE			:=	\033[34m
 GREEN			:=	\033[32m
@@ -22,6 +23,7 @@ clean:
 fclean: clean
 	@docker rmi -f $(APP_IMAGE_NAME)
 	@docker rmi -f $(API_IMAGE_NAME)
+	@docker rmi -f $(DB_IMAGE_NAME)
 
 reset: fclean
 	find . -not -path '*/.venv/*' -type d -name '__pycache__' -exec rm -r {} +
