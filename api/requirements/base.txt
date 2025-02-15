@@ -14,3 +14,5 @@ torchvision
 marker-pdf==1.3.5
 Pillow
 docling
+# database
+neo4j
