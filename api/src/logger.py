@@ -1,6 +1,9 @@
 import sys
 import logging
 from termcolor import colored
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 class CustomFormatter(logging.Formatter):
     _format = "%(levelname)-8s - %(message)s (%(filename)s:%(lineno)d)"
@@ -25,7 +28,7 @@ simple_formatter = logging.Formatter(
 )
 
 stream_handler = logging.StreamHandler(sys.stdout)
-file_handler = logging.FileHandler('app.log')
+file_handler = logging.FileHandler(str(BASE_DIR) + '/app.log')
 
 stream_handler.setFormatter(CustomFormatter())
 file_handler.setFormatter(simple_formatter)

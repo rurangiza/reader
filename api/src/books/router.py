@@ -5,16 +5,16 @@ Provides endpoints for uploading PDFs and accessing them.
 
 from fastapi import APIRouter, File, Form, UploadFile, HTTPException
 
-from data.Image import ImageDAL
-from data.File import FileDAL
+from data.image import ImageDAL
+from data.file import FileDAL
 
 from src.books.parsers import Marker, DocLing
-from src.books.schemas import Response
+from src.books.schemas import UploadResponse
 from src.books.constants import MAX_FILE_SIZE
 
 router = APIRouter(prefix="/books", tags=["books"])
 
-@router.post(path="/upload", response_model=Response)
+@router.post(path="/upload", response_model=UploadResponse)
 async def upload(file: UploadFile = File(...), title: str = Form(...)):
     """ Handle PDF uploads """
     if file.content_type != "application/pdf":

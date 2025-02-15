@@ -5,3 +5,4 @@ notebooks/
 archive/
 app.log
 __pycache__/
+*.yml
