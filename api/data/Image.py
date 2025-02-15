@@ -9,7 +9,7 @@ class ImageDAL:
     @classmethod
     def save_images(cls, images: List[Image.Image]) -> dict[str, str]:
         output_dir = Path(ImageDAL.IMAGE_UPLOAD_DIR) / "images"
-        output_dir.mkdir(exist_ok=True)
+        output_dir.mkdir(parents=True, exist_ok=True)
         image_paths = {}
         for image_name, pil_image in images.items():
             output_path = output_dir / image_name
