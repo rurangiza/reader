@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
-class Response(BaseModel):
-    message: str = Field(description="Response message")
+class UploadResponse(BaseModel):
+    message: str

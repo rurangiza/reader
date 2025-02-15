@@ -3,4 +3,4 @@
 uvicorn
 ipykernel
 termcolor
-docling
+python-dotenv

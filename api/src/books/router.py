@@ -5,21 +5,21 @@ Provides endpoints for uploading PDFs and accessing them.
 
 from fastapi import APIRouter, File, Form, UploadFile, HTTPException
 
-from data.Image import ImageDAL
-from data.File import FileDAL
+from data.image import ImageDAL
+from data.file import FileDAL
 
 from src.books.parsers import Marker, DocLing
-from src.books.schemas import Response
+from src.books.schemas import UploadResponse
 from src.books.constants import MAX_FILE_SIZE
 
 router = APIRouter(prefix="/books", tags=["books"])
 
-@router.post(path="/upload", response_model=Response)
+@router.post(path="/upload", response_model=UploadResponse)
 async def upload(file: UploadFile = File(...), title: str = Form(...)):
     """ Handle PDF uploads """
     if file.content_type != "application/pdf":
         raise HTTPException(
-            status_code=400,
+            status_code=415,
             detail="Only PDF files are allowed"
         )
     
@@ -33,14 +33,13 @@ async def upload(file: UploadFile = File(...), title: str = Form(...)):
         pdf = await file.read()
         if len(pdf) > MAX_FILE_SIZE:
             raise HTTPException(
-                status_code=400,
-                detail="File too large. Maximum size is 10MB"
+                status_code=413,
+                detail="File too large. Maximum 10mb"
             )
-        # m = Marker()
-        d = DocLing()
-        pdf_filepath = FileDAL.save(pdf, title, output_format=".pdf")
-        # html: str = m.to_html(pdf_filepath, ImageDAL.save_images)
-        html: str = d.to_html(pdf_filepath)
+        # parser = Marker()
+        # html: str = parser.to_html(pdf, ImageDAL.save_images)
+        parser = DocLing()
+        html: str = parser.to_html(pdf)
         html_filepath = FileDAL.save(html, title, output_format=".html")
         return {"message": f"Saved HTML at: {html_filepath}"}
     except (IOError, OSError) as e:
