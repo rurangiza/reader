@@ -1,8 +1,9 @@
 import sys
 import logging
+from termcolor import colored
 
 formatter = logging.Formatter(
-    fmt=" %(levelname)s - %(message)s"
+    fmt="%(levelname)s - %(message)s"
 )
 
 stream_handler = logging.StreamHandler(sys.stdout)
@@ -19,3 +20,9 @@ logger.handlers = [
 ]
 
 logger.setLevel(logging.INFO)
+
+def main():
+    logger.info(colored("Hello, world", "blue"))
+
+if __name__ == "__main__":
+    main()
