@@ -1,10 +1,8 @@
-
-
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.books import router as books
-from configs import config
+from src.configs import config
 
 api_router = APIRouter()
 api_router.include_router(books.router)

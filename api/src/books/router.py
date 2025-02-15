@@ -5,7 +5,10 @@ Provides endpoints for uploading PDFs and accessing them.
 
 from fastapi import APIRouter, File, Form, UploadFile, HTTPException
 
-from src.books.service import PDFParser
+from data.Image import ImageDAL
+from data.File import FileDAL
+
+from src.books.parsers import Marker, DocLing
 from src.books.schemas import Response
 from src.books.constants import MAX_FILE_SIZE
 
@@ -33,13 +36,17 @@ async def upload(file: UploadFile = File(...), title: str = Form(...)):
                 status_code=400,
                 detail="File too large. Maximum size is 10MB"
             )
-        parser = PDFParser(output_format="html")
-        html: str = parser.ingest(pdf, title)
-        # save file to document database
+        # m = Marker()
+        d = DocLing()
+        pdf_filepath = FileDAL.save(pdf, title, output_format=".pdf")
+        # html: str = m.to_html(pdf_filepath, ImageDAL.save_images)
+        html: str = d.to_html(pdf_filepath)
+        html_filepath = FileDAL.save(html, title, output_format=".html")
+        return {"message": f"Saved HTML at: {html_filepath}"}
     except (IOError, OSError) as e:
         raise HTTPException(
             status_code=500,
-            detail="An error occurred while processing the file. Please try again later."
+            detail=f"An error occurred while processing the file. Please try again later.\n: {e}"
         ) from e
     return {"message": "ok"}
 
