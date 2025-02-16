@@ -2,7 +2,7 @@ import file_icon from "../assets/upload-file.svg";
 import Button from "./Button";
 import { FormEvent, ChangeEvent, useState } from "react";
 
-const API_ENDPOINT = 'http://127.0.0.1:5050/api/upload'
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT + '/books/upload'
 
 interface Props {
   file: File | null;
