@@ -37,7 +37,7 @@ class BookDAL:
         return records[0]['title']
 
     @timer
-    def get_all_books(self) -> List[Book]:
+    def get_books(self) -> List[Book]:
         logger.info('Getting all books')
         records, _, _ = self._driver.execute_query(
             '''
@@ -53,7 +53,8 @@ class BookDAL:
         logger.warning(books)
         return books
 
-    def get_specific_book(self, book_id: UUID) -> Book:
+    @timer
+    def get_book_by_id(self, book_id: UUID) -> Book:
         records, _, _ = self._driver.execute_query(
             '''
             MATCH (b:Book {book_id: $id})
@@ -63,6 +64,17 @@ class BookDAL:
         )
         return records[0]
 
+    def get_book_by_title(self, title: str) -> Book:
+        records, _, _ = self._driver.execute_query(
+            '''
+            MATCH (b: Book {title: $title})
+            RETURN b.title as title, b.content as content, b.book_id as id
+            ''',
+            title=title
+        )
+        return records[0]
+
+    @timer
     def update_book(self, book_id: str, book: Book) -> BookTitle:
         records, _, _ = self._driver.execute_query(
             '''
@@ -75,7 +87,8 @@ class BookDAL:
         )
         return records[0]
     
-    def update_specific_book_title(self, book_id: UUID, title: str) -> BookTitle:
+    @timer
+    def update_book_title(self, book_id: UUID, title: str) -> BookTitle:
         records, _, _ = self._driver.execute_query(
             '''
             MATCH (b:Book {book_id: $id})
@@ -90,8 +103,8 @@ class BookDAL:
     # def get_chapter(self, book_id: UUID, chapter_id: int):
     #     logger.info('Getting a chapter')
 
-
-    def delete_specific_book(self, book_id: UUID):
+    @timer
+    def delete_book_by_id(self, book_id: UUID):
         logger.info('Removing a book')
         records, _, _ = self._driver.execute_query(
             '''
@@ -105,7 +118,7 @@ class BookDAL:
         return records[0]['title']
 
     @timer
-    def delete_all_books(self) -> None:
+    def delete_books(self) -> None:
         records, _, _ = self._driver.execute_query(
             '''
             MATCH (b:Book)

@@ -3,8 +3,8 @@ NAME			:= reader
 PROFILE 		:= dev
 
 API_IMAGE_NAME 	:= $(NAME)-api-$(PROFILE)
-APP_IMAGE_NAME 	:= $(NAME)-webapp-$(PROFILE)
-DB_IMAGE_NAME 	:= $(NAME)-neo4j-$(PROFILE)
+APP_IMAGE_NAME 	:= $(NAME)-frontend-$(PROFILE)
+DB_IMAGE_NAME 	:= $(NAME)-graphdb
 
 BLUE			:=	\033[34m
 GREEN			:=	\033[32m
