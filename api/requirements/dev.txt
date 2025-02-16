@@ -1,6 +1,7 @@
 -r base.txt
 
 uvicorn
+gunicorn
 ipykernel
 termcolor
 python-dotenv

@@ -26,11 +26,11 @@ from src.books.constants import MAX_FILE_SIZE
 router = APIRouter(prefix="/books", tags=["books"])
 
 @router.get(path="/", response_model=List[Book])
-async def get_all_books(request: Request):
+async def get_books(request: Request):
     """ .Get all books """
     db_driver = request.app.state.driver
     try:
-        books: List[Book] = BookDAL(db_driver).get_all_books()
+        books: List[Book] = BookDAL(db_driver).get_books()
         return books
     except Exception as e:
         logger.error('Failed to retrieve all books. Cause: %s', e)
@@ -41,11 +41,11 @@ async def get_all_books(request: Request):
     
 
 @router.get(path="/{book_id}", response_model=Book)
-async def get_specific_book(request: Request, book_id: str):
-    """ .Get a specific book by ID """
+async def get_book_by_id(request: Request, book_id: str):
+    """ Get a specific book by ID """
     db_driver = request.app.state.driver
     try:
-        book: Book = BookDAL(db_driver).get_specific_book(book_id)
+        book: Book = BookDAL(db_driver).get_book_by_id(book_id)
         return book
     except Exception as e:
         logger.error('Failed to retrieve book with ID %s. Cause: %s', book_id, e)
@@ -55,7 +55,7 @@ async def get_specific_book(request: Request, book_id: str):
         ) from e
 
 @router.post(path="/upload", response_model=UploadResponse)
-async def upload(
+async def add_book(
     request: Request,
     file: UploadFile = File(...),
     title: str = Form(...)
@@ -123,14 +123,14 @@ async def update_book(
         ) from e
 
 @router.patch(path="/{book_id}")
-async def update_specific_book_title(
+async def update_book_title(
     request: Request,
     book_id: str,
     title: str = Body(..., embed=True)
     ):
     driver = request.app.state.driver
     try:
-        newtitle: str = BookDAL(driver).update_specific_book_title(
+        newtitle: str = BookDAL(driver).update_book_title(
             book_id,
             title
         )
@@ -143,10 +143,10 @@ async def update_specific_book_title(
         ) from e
 
 @router.delete(path="/{book_id}")
-async def delete_specific_book(request: Request, book_id: str):
+async def delete_book_by_id(request: Request, book_id: str):
     driver = request.app.state.driver
     try:
-        title: str = BookDAL(driver).delete_specific_book(book_id)
+        title: str = BookDAL(driver).delete_book_by_id(book_id)
         return f"Book {title} was successfullly removed."
     except Exception as e:
         logger.error('Failed to delete the book with Id %s. CauseL %s', book_id, e)
@@ -156,10 +156,10 @@ async def delete_specific_book(request: Request, book_id: str):
         ) from e
 
 @router.delete(path="/")
-async def delete_all_books(request: Request):
+async def delete_books(request: Request):
     driver = request.app.state.driver
     try:
-        count: str = BookDAL(driver).delete_all_books()
+        count: str = BookDAL(driver).delete_books()
         return f'Library reset. Deleted {count} books in total.'
     except Exception as e:
         logger.error('Failed to reset the library. Cause: %s', e)
