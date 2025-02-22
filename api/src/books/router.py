@@ -19,9 +19,9 @@ from src.logger import logger
 
 from typing import List
 
-from src.books.parsers import Marker, DocLing
 from src.books.schemas import UploadResponse, Book
 from src.books.constants import MAX_FILE_SIZE
+from src.books.utils import normalize_title
 
 router = APIRouter(prefix="/books", tags=["books"])
 
@@ -30,7 +30,7 @@ async def get_books(request: Request):
     """ .Get all books """
     db_driver = request.app.state.driver
     try:
-        books: List[Book] = BookDAL(db_driver).get_books()
+        books: List[Book] = BookDAL(db_driver).get_all_books()
         return books
     except Exception as e:
         logger.error('Failed to retrieve all books. Cause: %s', e)
@@ -74,21 +74,20 @@ async def add_book(
         )
         
     try:
-        pdf = await file.read()
+        pdf: bytes = await file.read()
         if len(pdf) > MAX_FILE_SIZE:
             raise HTTPException(
                 status_code=413,
                 detail="File too large. Maximum 10mb"
             )
-        # parser = Marker()
-        # html: str = parser.to_html(pdf, ImageDAL.save_images)
-        # parser = DocLing()
-        # html: str = parser.to_html(pdf)
-
+        
+        title = normalize_title(title)
+        parser = request.app.state.parser
+        html: str = parser.to_html(pdf, ImageDAL.save_images)
         db_driver = request.app.state.driver
         response = BookDAL(db_driver).add_book({
             'title': title,
-            'content': "This is a book about the meaning of life."
+            'content': html
         })
         return {"message": f"Book '{response}' added to the database"}
     except (IOError, OSError) as e:
@@ -159,7 +158,7 @@ async def delete_book_by_id(request: Request, book_id: str):
 async def delete_books(request: Request):
     driver = request.app.state.driver
     try:
-        count: str = BookDAL(driver).delete_books()
+        count: str = BookDAL(driver).delete_all_books()
         return f'Library reset. Deleted {count} books in total.'
     except Exception as e:
         logger.error('Failed to reset the library. Cause: %s', e)

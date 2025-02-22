@@ -10,7 +10,7 @@ APP:
 OPENAI:
   KEY: 
 NEO4J:
-  DEV_URI: bolt://neo4j:7687
+  DEV_URI: bolt://graphdb:7687
   DEV_USERNAME: your_username
   DEV_PASSWORD: your_password
   HOST_HTTP_PORT: 7888

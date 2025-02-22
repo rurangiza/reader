@@ -19,7 +19,7 @@ router = APIRouter(prefix="/chat", tags=["chat"])
 
 @router.post(path="/", response_model=ChatResponse)
 async def invoke(request: ChatRequest):
-    logger.info(f"Chat: Query = {request.query}")
+    logger.info("Chat: Query = %s", request.query)
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[

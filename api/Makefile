@@ -1,8 +1,8 @@
-NAME := reader-api-dev
+NAME := reader-api
 
 ENTRYPOINT := main
 
-DEPENDENCIES_FILE := dev.txt
+DEPENDENCIES := requirements.txt
 
 PORT_IN := 5000
 PORT_OUT := 5050
@@ -15,7 +15,7 @@ run:
 
 install:
 	@echo "Installing dependencies"
-	@pip install -r requirements/$(DEPENDENCIES_FILE)
+	@pip install -r $(DEPENDENCIES)
 
 build:
 	@echo "Building image for api"
