@@ -1,25 +1,12 @@
 from uuid import uuid4
-from dataclasses import dataclass, field
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Dict
+from src.books.schemas import Book
+from fastapi import HTTPException
 
 UUID = str
 
 """ Classes Definitions """
-
-class Chapter:
-    number: int
-    content: str
-
-@dataclass(kw_only=True)
-class Book:
-    title: str
-    content: str = field(repr=False)
-    chapters: List[Chapter]
-    _chapters_count: int = field(init=False)
-
-    def __post_init__(self) -> int:
-        self._chapters_count = len(self.chapters)
 
 class Database(ABC):
     @abstractmethod
@@ -120,19 +107,6 @@ class GraphDB(Database):
             id=book_id, title=book['title'], content=book['content']
         )
         return records[0]
-    
-    # @timer
-    def update_book_title(self, book_id: UUID, title: str) -> str:
-        records, _, _ = self._driver.execute_query(
-            '''
-            MATCH (b:Book {book_id: $id})
-            SET b.title = $new_title
-            RETURN b.title as title
-            ''',
-            id=book_id, new_title=title
-        )
-        return records[0]['title']
-
 
     # def get_chapter(self, book_id: UUID, chapter_id: int):
     #     logger.info('Getting a chapter')
@@ -167,28 +141,26 @@ class DocumentDB(Database):
     def __init__(self, mongodb_driver):
         self.driver = mongodb_driver
 
-    def add_book(self, book: Book):
-        pass
+    def add_book(self, book: Book) -> str:
+        return "Not implemented"
 
-    def get_all_books(self):
-        pass
+    def get_all_books(self) -> List[Book]:
+        return []  # Return empty list for now
 
-    def get_book_by_id(self, book_id: UUID):
-        """ Retrieving book with known ID """
-        pass
+    def get_book_by_id(self, book_id: UUID) -> Book:
+        raise HTTPException(status_code=404, detail="Book not found")
 
-    def get_book_by_title(self, title: str):
-        """ searching for a book """
-        pass
+    def get_book_by_title(self, title: str) -> Book:
+        raise HTTPException(status_code=404, detail="Book not found")
 
-    def update_book(self, book: Book):
-        pass
+    def update_book(self, book_id: str, book: Book) -> Book:
+        raise HTTPException(status_code=404, detail="Book not found")
 
-    def delete_all_books(self):
-        pass
+    def delete_all_books(self) -> int:
+        return 0  # Return number of deleted books
 
-    def delete_book_by_id(self, book_id: UUID):
-        pass
+    def delete_book_by_id(self, book_id: UUID) -> str:
+        raise HTTPException(status_code=404, detail="Book not found")
 
 
 """ Playground """

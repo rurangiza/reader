@@ -26,3 +26,6 @@ gunicorn
 ipykernel
 termcolor 
 python-dotenv
+
+dnspython
+pymongo

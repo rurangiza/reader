@@ -22,7 +22,7 @@ with open('config.yml', 'r', encoding='utf-8') as f:
 app = FastAPI(
     title=config['APP']['NAME'],
     openapi_url=f"/{config['APP']['NAME']}/openapi.json",
-    # lifespan=lifespan
+    lifespan=lifespan
 )
 
 api_router = APIRouter()

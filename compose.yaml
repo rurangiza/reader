@@ -25,13 +25,11 @@ services:
     build: ./api
     ports:
       - ${API_HOST_PORT}:5000
-    depends_on:
-      - graphdb
+    # depends_on:
+    #   - graphdb
     command: gunicorn -k uvicorn.workers.UvicornWorker -b 0.0.0.0:5000 main:app --timeout 240
     # volumes:
     #   - ./api:/api
     environment:
       - PYTHONUNBUFFERED=1
     restart: always
-    profiles:
-      - prod
