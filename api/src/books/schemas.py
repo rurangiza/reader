@@ -1,10 +1,15 @@
-from pydantic import BaseModel
 from typing import List, Dict
+from pydantic import BaseModel
 
-class UploadResponse(BaseModel):
-    message: str
+class Chapter(BaseModel):
+    number: int
+    title: str
+    content: str
 
 class Book(BaseModel):
     title: str
-    content: str
-    id: str
+    chapters: List[Chapter]
+    summary: str = ""  # Optional field with default value
+
+class UploadResponse(BaseModel):
+    message: str

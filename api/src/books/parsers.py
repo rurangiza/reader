@@ -1,128 +1,95 @@
-# from io import BytesIO
-
-import re
 import os
 import tempfile
 
-from functools import cache
+from typing import Dict, List
 from abc import ABC, abstractmethod
-from typing import List, Callable, Optional
 from docling.document_converter import DocumentConverter
-from PIL import Image
-
-from marker.models import create_model_dict
-from marker.output import text_from_rendered
-from marker.config.parser import ConfigParser
-from marker.converters.pdf import PdfConverter
 
 from src.logger import logger
 
-Filepath = str
-PDF = bytes
 
 class BaseParser(ABC):
+
     @abstractmethod
-    def to_html(
+    def to_md(
         self,
-        file: Filepath | PDF,
-        save_images: Optional[Callable[[list[Image.Image]], None]] = None
+        file: str | bytes
         ) -> str:
         pass
+
+    def _get_filepath(self, file: str | bytes):
+        """ Returns original path or path to a temporary file """
+        if not isinstance(file, (str, bytes)):
+            raise TypeError(f"Expected str or bytes, got {type(file).__name__}")
+        if isinstance(file, str):
+            return file
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
+            tmp_file.write(file)
+            return tmp_file.name
 
 class DocLing(BaseParser):
     """ .Infos: https://github.com/DS4SD/docling """
     def __init__(self):
-        self.__parser = DocLing.__create_parser()
+        self.__parser = self.__create_parser()
     
-    @classmethod
-    @cache
-    def __create_parser(cls):
-        return DocumentConverter()
-
-    def to_html(
-        self,
-        file: Filepath | PDF,
-        save_images: Optional[Callable[[list[Image.Image]], None]] = None
-        ) -> str:
-
-        if isinstance(file, PDF):
-            # parser only accepts filepaths
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
-                tmp_file.write(file)
-                filepath = tmp_file.name
-        else: filepath = file
-
+    def to_md(self, file: str | bytes) -> str:
+        filepath = self._get_filepath(file)
         try:
             result = self.__parser.convert(filepath)
-            styled_html = result.document.export_to_html()
-            return self.__remove_styles_from_html(styled_html)
+            return result.document.export_to_markdown()
         finally:
-            if isinstance(file, PDF):
+            if isinstance(file, bytes):
                 os.unlink(filepath)
     
-    def __remove_styles_from_html(self, html: str) -> str:
-        return re.sub(r'<style.*?>.*?</style>', '', html, flags=re.DOTALL)
+    def __create_parser(self):
+        return DocumentConverter()
 
-
-class Marker(BaseParser):
-    """ Infos: .https://github.com/VikParuchuri/marker """
+class PDFParser:
     def __init__(self):
-        self.__html_parser = Marker.__create_parser("html")
+        self._parsers: Dict[str, BaseParser] = {
+            "docling": DocLing()
+        }
     
-    @classmethod
-    @cache
-    def __create_parser(cls, output_format):
-        config_parser = ConfigParser({
-            "output_format": output_format
-        })
-        return PdfConverter(
-            artifact_dict=create_model_dict(),
-            renderer=config_parser.get_renderer()
-        )
+    def run(self, file: str) -> Dict[str, str]:
+        logger.info('Parser: starting..')
+        markdown: str = self._to_md(file)
+        return self._split_by_chapters(markdown)
     
-    def to_html(
-        self,
-        file: Filepath | PDF,
-        save_images: Optional[Callable[[list[Image.Image]], None]] = None
-        ) -> str:
+    def _to_md(self, file: str | bytes) -> str:
+        logger.info('Parser: converting PDF to Markdown')
+        parser = self._parsers.get('docling')
+        return parser.to_md(file)
 
-        if isinstance(file, PDF):
-            # parser only accepts filepaths
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
-                tmp_file.write(file)
-                filepath = tmp_file.name
-        else: filepath = file
+    def _split_by_chapters(self, markdown_text) -> List[Dict]:
+        logger.info('Parser: splitting by chapter')
 
-        try:
-            rendered = self.__html_parser(filepath)
-            text, _, images = text_from_rendered(rendered)
-            image_paths: dict[str, str] = save_images(images)
-            return self.__replace_image_links(text, image_paths)
-        finally:
-            if isinstance(file, PDF):
-                os.unlink(filepath)
-
-    def __replace_image_links(self,text: str, image_paths: dict) -> str:
-        """ Replace placeholder image text with corresponding links """
-        newtext = text
-        for image_name, image_path in image_paths.items():
-            newtext = newtext.replace(image_name, image_path)
-        return newtext
-
-
-class BatchParser(BaseParser):
-    def __init__(self):
-        self.parsers: List[BaseParser] = [
-            Marker(),
-            DocLing(),
-        ]
-    
-    def to_html(
-        self,
-        file: Filepath | PDF,
-        save_images: Optional[Callable[[list[Image.Image]], None]] = None
-        ):
-        for parser in self.parsers:
-            parser.to_html(file, save_images)
-
-    
+        chapters = []
+        current_title = None
+        current_content = []
+        count = 0
+        
+        for line in markdown_text.split('\n'):
+            if line.startswith('## '):
+                # Save previous chapter if exists
+                if current_title:
+                    chapters.append({
+                        'number': count,
+                        'title': current_title,
+                        'content': ('\n'.join(current_content)).strip('\n')
+                    })
+                    current_content = []
+                    count += 1
+                # Start new chapter
+                current_title = line.replace('## ', '').strip()
+            elif current_title:
+                current_content.append(line)
+        
+        # Save final chapter
+        if current_title:
+            chapters.append({
+                'number': count,
+                'title': current_title,
+                'content': ('\n'.join(current_content)).strip('\n')
+            })
+            
+        return chapters

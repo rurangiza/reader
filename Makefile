@@ -2,8 +2,8 @@ NAME			:= reader
 
 PROFILE 		:= dev
 
-API_IMAGE_NAME 	:= $(NAME)-api-$(PROFILE)
-APP_IMAGE_NAME 	:= $(NAME)-frontend-$(PROFILE)
+API_IMAGE_NAME 	:= $(NAME)-api
+APP_IMAGE_NAME 	:= $(NAME)-frontend
 DB_IMAGE_NAME 	:= $(NAME)-graphdb
 
 BLUE			:=	\033[34m

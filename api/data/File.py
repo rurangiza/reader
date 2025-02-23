@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from typing import List, Literal
 
@@ -8,20 +9,20 @@ class FileDAL:
     def save(
         content: bytes | str,
         title: str,
-        output_format: Literal[".md", ".html", ".pdf"] = ".html"
+        directory: str = "uploads",
+        extension: Literal["md", "html", "pdf"] = "pdf",
         ) -> str:
         """ Save files locally """
         # target_dir = Path(FileDAL.FILE_UPLOAD_DIR) / title
-        target_dir = Path(FileDAL.FILE_UPLOAD_DIR)
-        target_dir.mkdir(exist_ok=True)
+        target_dir = Path(directory)
+        target_dir.mkdir(parents=True, exist_ok=True)
         
-        if isinstance(content, bytes):
-            mode = 'wb'
-        else:
-            mode = "w"
+        mode = 'wb' if isinstance(content, bytes) else 'w'
 
-        filepath = target_dir / f'{title}{output_format}'
+        filepath = target_dir / f'{title}.{extension}'
         
         with open(filepath, mode) as f:
+            if isinstance(content, dict):
+                content = json.dumps(content)
             f.write(content)
         return str(filepath)
