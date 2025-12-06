@@ -1,0 +1,16 @@
+meta {
+  name: Valid upload request
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/books
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(/Users/lupin/Documents/books/clean_code.pdf)
+  title: Clean Code
+}
