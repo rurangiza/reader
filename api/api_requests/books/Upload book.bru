@@ -1,0 +1,30 @@
+meta {
+  name: Upload book
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/books
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Hello, world",
+    "summary": "A book about nothing",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "content": "{{$randomLoremParagraphs}}",
+        "number": 0
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
