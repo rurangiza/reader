@@ -1,8 +1,0 @@
-uploads/
-Dockerfile
-.dockerignore
-.git
-.gitignore
-.env
-.venv
-__pycahe__
