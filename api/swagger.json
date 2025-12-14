@@ -1,0 +1,103 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/books": {
+      "get": {
+        "operationId": "BooksController_listBooks",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/BookDto" }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get a list of all books",
+        "tags": ["Books"]
+      },
+      "post": {
+        "operationId": "BooksController_uploadBook",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UploadBookDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BookDto" }
+              }
+            }
+          }
+        },
+        "summary": "Upload a new book",
+        "tags": ["Books"]
+      }
+    },
+    "/books/{bookId}": {
+      "get": {
+        "operationId": "BooksController_getBookById",
+        "parameters": [
+          {
+            "name": "bookId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BookDto" }
+              }
+            }
+          }
+        },
+        "summary": "Get a book by its ID",
+        "tags": ["Books"]
+      },
+      "delete": {
+        "operationId": "BooksController_deleteBookById",
+        "parameters": [
+          {
+            "name": "bookId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "204": { "description": "" } },
+        "summary": "Delete a book by its ID",
+        "tags": ["Books"]
+      }
+    }
+  },
+  "info": {
+    "title": "Reader",
+    "description": "The Reader API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [{ "name": "Reader", "description": "" }],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "BookDto": { "type": "object", "properties": {} },
+      "UploadBookDto": { "type": "object", "properties": {} }
+    }
+  }
+}
