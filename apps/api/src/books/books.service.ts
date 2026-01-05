@@ -2,20 +2,20 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { BookDto } from './dto/book.dto';
 import { mockLibrary } from './dto/mocks';
 import { randomUUID, UUID } from 'crypto';
-import { GetBookDto } from './dto/get-book.dto';
+import { BookResponseDto } from './dto/book-response.dto';
 import { CreateBookDto } from './dto/create-book.dto';
 
 @Injectable()
 export class BooksService {
   private library: BookDto[] = mockLibrary;
 
-  findAll(): GetBookDto[] {
+  findAll(): BookResponseDto[] {
     return this.library.map(({ chapters: _chapters, ...rest }) => ({
       ...rest,
     }));
   }
 
-  findOne(id: UUID): GetBookDto {
+  findOne(id: UUID): BookResponseDto {
     const book = this.library.find((book) => book.id === id);
     if (!book) {
       throw new NotFoundException('Book not found');
@@ -24,7 +24,7 @@ export class BooksService {
     return bookWithoutChapters;
   }
 
-  create(uploadBookDto: CreateBookDto): GetBookDto {
+  create(uploadBookDto: CreateBookDto): BookResponseDto {
     const book = {
       ...uploadBookDto,
       id: randomUUID(),

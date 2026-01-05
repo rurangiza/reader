@@ -2,6 +2,7 @@ import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import unusedImports from 'eslint-plugin-unused-imports'
 
 import { defineConfig } from "eslint/config"
 
@@ -41,6 +42,8 @@ export default defineConfig(
       ],
       "prettier/prettier": ["error", { endOfLine: "auto" }],
     },
-    plugins: ["unused-imports"],
+    plugins: {
+      "unused-imports": unusedImports
+    },
   },
 );

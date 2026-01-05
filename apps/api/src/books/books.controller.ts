@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -7,13 +6,10 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseBoolPipe,
   Post,
-  Query,
 } from '@nestjs/common';
 import { BooksService } from './books.service';
-import { GetBookDto } from './dto/get-book.dto';
-import type { UUID } from 'crypto';
+import { BookResponseDto } from './dto/book-response.dto';
 import { CreateBookDto } from './dto/create-book.dto';
 import { ApiFindAllBooks } from './decorators/api-find-all-books.decorator';
 import { ApiCreateBook } from './decorators/api-create-book.decorator';
@@ -29,21 +25,21 @@ export class BooksController {
   @Get()
   @HttpCode(HttpStatus.OK)
   @ApiFindAllBooks()
-  findAll(): GetBookDto[] {
+  findAll(): BookResponseDto[] {
     return this.booksService.findAll();
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiCreateBook()
-  create(@Body() body: CreateBookDto): GetBookDto {
+  create(@Body() body: CreateBookDto): BookResponseDto {
     return this.booksService.create(body);
   }
 
   @Get(':bookId')
   @HttpCode(HttpStatus.OK)
   @ApiFindOneBook()
-  findOne(@Param() params: GetBookParamsDto): GetBookDto {
+  findOne(@Param() params: GetBookParamsDto): BookResponseDto {
     return this.booksService.findOne(params.bookId);
   }
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsUUID } from 'class-validator';
 import type { UUID } from 'crypto';
 
 export class RemoveBookParamsDto {
