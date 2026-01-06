@@ -1,12 +1,13 @@
+import type { UUID } from 'crypto';
+
 import { ApiProperty } from '@nestjs/swagger';
 import { IsUUID } from 'class-validator';
-import type { UUID } from 'crypto';
 
 export class GetBookParamsDto {
   @ApiProperty({
-    type: String,
-    example: '2691fc73-e784-4e4c-a266-231f5992bfce',
     description: 'ID of the book',
+    example: '2691fc73-e784-4e4c-a266-231f5992bfce',
+    type: String,
   })
   @IsUUID()
   bookId!: UUID;

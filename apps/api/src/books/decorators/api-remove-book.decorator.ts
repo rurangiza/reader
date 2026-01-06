@@ -9,6 +9,6 @@ export function ApiRemoveBook() {
   return applyDecorators(
     ApiOperation({ summary: 'Delete a book by its ID' }),
     ApiNotFoundResponse({ description: 'Book not found' }),
-    ApiResponse({ status: HttpStatus.NO_CONTENT }),
+    ApiResponse({ description: 'Book deleted', status: HttpStatus.NO_CONTENT }),
   );
 }

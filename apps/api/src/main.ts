@@ -1,7 +1,8 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,9 +15,12 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Reader')
-    .setDescription('The Reader API description')
+    .setDescription('The Reader API')
     .setVersion('1.0')
-    .addTag('Reader')
+    .addGlobalResponse({
+      description: 'Internal server error',
+      status: 500,
+    })
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);

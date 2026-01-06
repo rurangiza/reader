@@ -3,6 +3,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import unusedImports from 'eslint-plugin-unused-imports'
+import perfectionist from 'eslint-plugin-perfectionist'
 
 import { defineConfig } from "eslint/config"
 
@@ -11,6 +12,7 @@ export default defineConfig(
     ignores: ['eslint.config.mjs'],
   },
   eslint.configs.recommended,
+  perfectionist.configs['recommended-natural'],
   ...tseslint.configs.recommendedTypeChecked,
   eslintPluginPrettierRecommended,
   {
