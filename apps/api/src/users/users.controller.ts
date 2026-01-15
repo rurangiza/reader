@@ -9,7 +9,7 @@ import { CurrentUserResponseDto } from './dto/get-current-user-response.dto';
 @Controller('users')
 export class UsersController {
   @ApiOperation({ description: 'Get informations about the logged in user' })
-  @ApiResponse({ status: HttpStatus.CREATED, type: AuthenticatedUser })
+  @ApiResponse({ status: HttpStatus.CREATED, type: CurrentUserResponseDto })
   @Get('me')
   @HttpCode(HttpStatus.OK)
   getCurrentUser(@User() user: AuthenticatedUser): CurrentUserResponseDto {
