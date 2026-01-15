@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-class RequestWithUserInfo extends Request {
+class AuthenticatedRequest extends Request {
   user: {
     exp: number;
     iat: number;
@@ -11,12 +11,12 @@ class RequestWithUserInfo extends Request {
 
 export const User = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest<RequestWithUserInfo>();
+    const request = ctx.switchToHttp().getRequest<AuthenticatedRequest>();
     if (!request?.user) {
       throw new Error('Missing user info');
     }
     return {
-      sub: request.user.sub,
+      id: request.user.sub,
     };
   },
 );

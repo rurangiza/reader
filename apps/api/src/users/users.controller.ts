@@ -3,6 +3,8 @@ import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from 'src/auth/decorator/user.decorator';
 import { AuthenticatedUser } from 'src/auth/types/authenticated-user';
 
+import { CurrentUserResponseDto } from './dto/get-current-user-response.dto';
+
 @ApiBearerAuth()
 @Controller('users')
 export class UsersController {
@@ -10,7 +12,7 @@ export class UsersController {
   @ApiResponse({ status: HttpStatus.CREATED, type: AuthenticatedUser })
   @Get('me')
   @HttpCode(HttpStatus.OK)
-  getCurrentUser(@User() user: AuthenticatedUser) {
+  getCurrentUser(@User() user: AuthenticatedUser): CurrentUserResponseDto {
     return user;
   }
 }

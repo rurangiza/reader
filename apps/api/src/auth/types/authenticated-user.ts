@@ -1,3 +1,3 @@
 export class AuthenticatedUser {
-  sub: string;
+  id: string;
 }

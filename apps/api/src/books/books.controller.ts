@@ -33,7 +33,7 @@ export class BooksController {
     @Body() body: CreateBookDto,
     @User() user: AuthenticatedUser,
   ): Promise<BookResponseDto> {
-    return this.booksService.create(body, user.sub);
+    return this.booksService.create(body, user.id);
   }
 
   @ApiFindAllBooks()
