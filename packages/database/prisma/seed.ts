@@ -1,12 +1,28 @@
 import { PrismaClient } from "../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
+import * as bcrypt from "bcrypt";
+
+const SALTORROUND = 12;
+
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
 });
 
 const prisma = new PrismaClient({ adapter });
 async function main() {
+  async function createUser(name: string, pass: string) {
+    return await prisma.user.create({
+      data: {
+        username: name,
+        password: await bcrypt.hash(pass, SALTORROUND),
+      },
+    });
+  }
+
+  const john = await createUser("john", "johndoe");
+  const jane = await createUser("jane", "janedoe");
+
   const cleanCode = await prisma.book.create({
     data: {
       title: "Clean Code",
@@ -17,6 +33,7 @@ async function main() {
           name: "Uncle Bob",
         },
       },
+      userId: john.id,
       chapters: {
         createMany: {
           data: [
@@ -90,8 +107,7 @@ async function main() {
   });
   const sixEasyPieces = await prisma.book.create({
     data: {
-      title:
-        "Six Easy Pieces",
+      title: "Six Easy Pieces",
       summary:
         "Six Easy Pieces is a concise introduction to fundamental concepts in physics, drawn from Richard Feynman’s celebrated lectures. The book emphasizes physical intuition, clarity of reasoning, and the deep principles underlying natural laws.",
       authors: {
@@ -99,6 +115,7 @@ async function main() {
           name: "Richard P. Feynman",
         },
       },
+      userId: jane.id,
       chapters: {
         createMany: {
           data: [

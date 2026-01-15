@@ -1,3 +1,5 @@
+import type { AuthenticatedUser } from 'src/auth/types/authenticated-user';
+
 import {
   Body,
   Controller,
@@ -9,6 +11,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { User } from 'src/auth/decorator/user.decorator';
 
 import { BooksService } from './books.service';
 import { ApiCreateBook } from './decorators/api-create-book.decorator';
@@ -28,8 +31,11 @@ export class BooksController {
   @ApiCreateBook()
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  async create(@Body() body: CreateBookDto): Promise<BookResponseDto> {
-    return this.booksService.create(body);
+  async create(
+    @Body() body: CreateBookDto,
+    @User() user: AuthenticatedUser,
+  ): Promise<BookResponseDto> {
+    return this.booksService.create(body, user.sub);
   }
 
   @ApiFindAllBooks()

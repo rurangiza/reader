@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db:migrate": "prisma migrate dev --skip-generate",
+    "db:migrate": "prisma migrate dev",
     "db:pull": "prisma db pull",
     "db:generate": "prisma generate",
     "db:format": "prisma format",
@@ -17,7 +17,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^25.0.8",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "dotenv-config": "^0.1.1",
     "prisma": "^7.2.0",
