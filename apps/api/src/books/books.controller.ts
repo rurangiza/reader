@@ -10,7 +10,6 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
 import { User } from 'src/auth/decorator/user.decorator';
 
 import { BooksService } from './books.service';
@@ -23,7 +22,6 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { GetBookParamsDto } from './dto/get-book-params.dto';
 import { RemoveBookParamsDto } from './dto/remove-book-params.dto';
 
-@ApiTags('books')
 @Controller('books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}

@@ -1,3 +1,3 @@
-export interface AuthenticatedUser {
+export class AuthenticatedUser {
   sub: string;
 }
