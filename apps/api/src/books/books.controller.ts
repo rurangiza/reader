@@ -28,28 +28,28 @@ export class BooksController {
   @ApiCreateBook()
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  create(@Body() body: CreateBookDto): BookResponseDto {
+  async create(@Body() body: CreateBookDto): Promise<BookResponseDto> {
     return this.booksService.create(body);
   }
 
   @ApiFindAllBooks()
   @Get()
   @HttpCode(HttpStatus.OK)
-  findAll(): BookResponseDto[] {
+  async findAll(): Promise<BookResponseDto[]> {
     return this.booksService.findAll();
   }
 
   @ApiFindOneBook()
   @Get(':bookId')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param() params: GetBookParamsDto): BookResponseDto {
+  async findOne(@Param() params: GetBookParamsDto): Promise<BookResponseDto> {
     return this.booksService.findOne(params.bookId);
   }
 
   @ApiRemoveBook()
   @Delete(':bookId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param() params: RemoveBookParamsDto): void {
+  async remove(@Param() params: RemoveBookParamsDto): Promise<void> {
     return this.booksService.remove(params.bookId);
   }
 }

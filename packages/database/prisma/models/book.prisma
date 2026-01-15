@@ -1,0 +1,24 @@
+model Book {
+  id       String    @id @default(uuid()) @db.Uuid
+  title    String    @db.VarChar(64)
+  summary  String    @db.Text
+  authors  Author[]
+  chapters Chapter[]
+}
+
+model Author {
+  id     String  @id @default(uuid()) @db.Uuid
+  name   String  @db.VarChar(40)
+  book   Book?   @relation(fields: [bookId], references: [id])
+  bookId String? @db.Uuid
+}
+
+model Chapter {
+  id      String  @id @default(uuid()) @db.Uuid
+  title   String  @db.VarChar(64)
+  summary String  @db.Text
+  content String  @db.Text
+  number  Int
+  book    Book?   @relation(fields: [bookId], references: [id])
+  bookId  String? @db.Uuid
+}

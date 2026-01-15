@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:alpine3.23
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=reader
+    ports:
+      - 5454:5432
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  adminer:
+    image: adminer:5.4.1
+    restart: always
+    ports:
+      - 8080:8080
+volumes:
+  pgdata:

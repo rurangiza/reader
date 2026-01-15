@@ -1,5 +1,3 @@
-import type { UUID } from 'crypto';
-
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
@@ -7,7 +5,6 @@ import {
   IsArray,
   IsNotEmpty,
   IsString,
-  IsUUID,
   ValidateNested,
 } from 'class-validator';
 
@@ -27,8 +24,8 @@ export class BookDto {
     example: '6e426018-4251-4c2c-85db-23e8f9af19ae',
     type: String,
   })
-  @IsUUID()
-  id!: UUID;
+  @IsString()
+  id!: string;
 
   @ApiProperty({
     example:
