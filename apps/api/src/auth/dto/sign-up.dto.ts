@@ -1,6 +1,20 @@
-import { IsNotEmpty, IsString, IsStrongPassword } from 'class-validator';
+import { ApiProperty, ApiSchema } from '@nestjs/swagger';
+import {
+  IsNotEmpty,
+  IsString,
+  IsStrongPassword,
+  Length,
+  MaxLength,
+} from 'class-validator';
 
+@ApiSchema({
+  description: 'Sign-up credentials',
+})
 export class SignUpDto {
+  @ApiProperty({
+    example: '9JrHmsFZK8J-a',
+    type: String,
+  })
   @IsNotEmpty()
   @IsString()
   @IsStrongPassword({
@@ -10,9 +24,15 @@ export class SignUpDto {
     minSymbols: 1,
     minUppercase: 1,
   })
+  @MaxLength(127)
   password!: string;
 
+  @ApiProperty({
+    example: 'john-doe',
+    type: String,
+  })
   @IsNotEmpty()
   @IsString()
+  @Length(3, 32)
   username!: string;
 }
