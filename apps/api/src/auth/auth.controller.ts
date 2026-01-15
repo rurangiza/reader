@@ -12,6 +12,8 @@ import {
 import type { AuthenticatedUser } from './types/authenticated-user';
 
 import { AuthService } from './auth.service';
+import { ApiSignIn } from './decorator/api-sign-in.decorator';
+import { ApiSignUp } from './decorator/api-sign-up.decorator';
 import { Public } from './decorator/public.decorator';
 import { User } from './decorator/user.decorator';
 import { SignInResponseDto } from './dto/sign-in-response.dto';
@@ -31,6 +33,7 @@ export class AuthController {
     return user;
   }
 
+  @ApiSignIn()
   @HttpCode(HttpStatus.OK)
   @Post('sign-in')
   @Public()
@@ -38,6 +41,7 @@ export class AuthController {
     return this.authService.signIn(signInDto.username, signInDto.password);
   }
 
+  @ApiSignUp()
   @HttpCode(HttpStatus.OK)
   @Post('sign-up')
   @Public()

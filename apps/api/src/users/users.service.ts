@@ -3,6 +3,8 @@ import * as bcrypt from 'bcrypt';
 import { DatabaseService } from 'src/database/database.service';
 
 const SALTORROUND = 12;
+const MAX_PASS_LENGTH = 128;
+const MIN_PASS_LENGTH = 12;
 
 @Injectable()
 export class UsersService {
@@ -12,8 +14,8 @@ export class UsersService {
     if (
       !password ||
       typeof password !== 'string' ||
-      password.length > 128 ||
-      password.length < 12
+      password.length > MAX_PASS_LENGTH ||
+      password.length < MIN_PASS_LENGTH
     ) {
       throw new BadRequestException('Invalid password');
     }
