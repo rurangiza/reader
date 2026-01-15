@@ -1,45 +1,72 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { randomUUID, UUID } from 'crypto';
+import { UUID } from 'crypto';
+import { DatabaseService } from 'src/database/database.service';
 
 import { BookResponseDto } from './dto/book-response.dto';
-import { BookDto } from './dto/book.dto';
 import { CreateBookDto } from './dto/create-book.dto';
-import { mockLibrary } from './dto/mocks';
 
 @Injectable()
 export class BooksService {
-  private library: BookDto[] = mockLibrary;
+  constructor(private readonly database: DatabaseService) {}
 
-  create(uploadBookDto: CreateBookDto): BookResponseDto {
-    const book = {
-      ...uploadBookDto,
-      id: randomUUID(),
-    };
-    this.library.push(book);
-    const { chapters: _chapters, ...bookWithoutChapters } = book;
-    return bookWithoutChapters;
-  }
-
-  findAll(): BookResponseDto[] {
-    return this.library.map(({ chapters: _chapters, ...rest }) => ({
-      ...rest,
-    }));
-  }
-
-  findOne(id: UUID): BookResponseDto {
-    const book = this.library.find((book) => book.id === id);
-    if (!book) {
-      throw new NotFoundException('Book not found');
+  async create(uploadBookDto: CreateBookDto) {
+    try {
+      return await this.database.book.create({
+        data: {
+          summary: uploadBookDto.summary,
+          title: uploadBookDto.title,
+        },
+        select: {
+          id: true,
+          summary: true,
+          title: true,
+        },
+      });
+    } catch (dbError) {
+      console.error(dbError);
+      throw dbError;
     }
-    const { chapters: _chapters, ...bookWithoutChapters } = book;
-    return bookWithoutChapters;
   }
 
-  remove(id: UUID): void {
-    const book = this.library.find((book) => book.id === id);
-    if (!book) {
-      throw new NotFoundException('Book not found');
+  async findAll(): Promise<BookResponseDto[]> {
+    try {
+      return await this.database.book.findMany();
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
-    this.library = this.library.filter((book) => book.id !== id);
+  }
+
+  async findOne(id: UUID): Promise<BookResponseDto> {
+    try {
+      const book = await this.database.book.findFirst({
+        where: {
+          id,
+        },
+      });
+      if (!book) {
+        throw new NotFoundException('Book not found');
+      }
+      return book;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async remove(id: UUID): Promise<void> {
+    try {
+      const book = await this.database.book.delete({
+        where: {
+          id,
+        },
+      });
+      if (!book) {
+        throw new NotFoundException('Book not found');
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 }
