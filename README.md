@@ -15,6 +15,8 @@ Scaffold
 - [x] add authentication
 - [x] create ui package that uses shadcn + tailwind
 - [ ] create basic UI for login and book management
+  - [x] added the login and signup components
+  - [ ] validate the inputs (zod)
 - [ ] connect frontend to api (ky + react query + openapi)
 - [ ] improve error handling and [logging](https://betterstack.com/community/guides/logging/)
 
