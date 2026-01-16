@@ -18,10 +18,16 @@ Scaffold
 - [ ] connect frontend to api (ky + react query + openapi)
 - [ ] improve error handling and [logging](https://betterstack.com/community/guides/logging/)
 
+> [!NOTE]
+> Outcome: I'll be able to run the app localy, sign-up then login, and manage books.
+
 CI
 - [ ] ensure linting, formating and tsc checks run on save, commit and push (husky, GH actions)
 - [ ] add tests (Jest: unit, integration tests). 80% coverage
 - [ ] run tests on commit, push
+
+> [!NOTE]
+> Outcome: I can quickly make changes and feel confident nothing will break.
 
 CD
 - [ ] setup and run test and prod database (ex: aws db.t3.micro)
@@ -30,4 +36,7 @@ CD
 - [ ] add monitoring (opentelemetry, prometheus, grafana)
 - [ ] apply db migrations based on branching/merging strategy
 - [ ] run terrafrom apply
-- [ ] add manual approval for PROD deployments
+- [ ] add manual approval for PROD deployments, only if TEST deployed successfully
+
+> [!NOTE]
+> Outcome: the app is accessible by everone. It's production-ready, observable, fault-tolerant and allows deployements in <2min.
