@@ -27,23 +27,38 @@ import * as z from "zod";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFormData, LoginFormSchema } from "@/formSchemas/auth";
+import { $api } from "@/api/client";
+import { useRouter } from "next/navigation";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
-      username: "",
+      emailAddress: "",
       password: "",
     },
   });
 
-  function onSubmit(data: LoginFormData) {
-    toast.success("You submitted the login form.", {
-      position: "bottom-right",
-      description: "You clicked",
+  const { mutate: triggerLogin } = $api.useMutation("post", "/auth/signin", {
+    onError: (data) => {
+      console.log({ LOGIN_FAILED: data });
+      toast.error("There was an error while login", {});
+    },
+    onSuccess: (data) => {
+      console.log({ LOGIN_SUCCEDED: data });
+      // assume the session token has been set in the header
+      router.push("/me");
+    },
+  });
+
+  async function onSubmit(data: LoginFormData) {
+    await triggerLogin({
+      body: data,
     });
   }
 
@@ -53,22 +68,22 @@ export function LoginForm({
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
-            Enter your username below to login to your account
+            Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
               <Controller
-                name="username"
+                name="emailAddress"
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Username</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
                     <Input
                       id={field.name}
                       type={field.name}
-                      placeholder="john-doe"
+                      placeholder="jdoe@gmail.com"
                       required
                       aria-invalid={fieldState.invalid}
                       {...field}

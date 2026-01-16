@@ -7,7 +7,6 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
 
-import { SignInResponseDto } from './dto/sign-in-response.dto';
 import { SignUpResponseDto } from './dto/sign-up-response.dto';
 
 const DUMMY_BCRYPT_HASH =
@@ -23,7 +22,7 @@ export class AuthService {
   async signIn(
     emailAddress: string,
     password: string,
-  ): Promise<SignInResponseDto> {
+  ): Promise<{ access_token: string }> {
     const user = await this.usersService.findByEmailAddress(emailAddress);
 
     const hash = user?.passwordHash ?? DUMMY_BCRYPT_HASH;

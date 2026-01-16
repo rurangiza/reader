@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { DatabaseService } from 'src/database/database.service';
+
+import { DatabaseService } from '@/database/database.service';
 
 const SALTORROUND = 12;
 const MAX_PASS_LENGTH = 128;

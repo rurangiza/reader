@@ -5,6 +5,7 @@ import "@repo/ui/globals.css";
 import { Toaster } from "@repo/ui/components/sonner";
 
 import type { Metadata } from "next";
+import { Providers } from "./providers";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -30,7 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${fontSans.variable} ${fontMono.variable}`}>
         <Toaster />
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

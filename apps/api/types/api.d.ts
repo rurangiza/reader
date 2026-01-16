@@ -40,7 +40,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/sign-in": {
+    "/auth/signin": {
         parameters: {
             query?: never;
             header?: never;
@@ -57,7 +57,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/sign-up": {
+    "/auth/signup": {
         parameters: {
             query?: never;
             header?: never;
@@ -123,21 +123,15 @@ export interface components {
         };
         /** @description Login credentials */
         SignInDto: {
+            /** @example jdoe@gmail.com */
+            emailAddress: string;
             /** @example 9JrHmsFZK8J-a */
             password: string;
-            /**
-             * @description Unique username
-             * @example john-doe
-             */
-            username: string;
-        };
-        /** @description Response received after login */
-        SignInResponseDto: {
-            /** @example eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.XYZ123 */
-            access_token: string;
         };
         /** @description Sign-up credentials */
         SignUpDto: {
+            /** @example jdoe@gmail.com */
+            emailAddress: string;
             /** @example 9JrHmsFZK8J-a */
             password: string;
             /** @example john-doe */
@@ -145,10 +139,10 @@ export interface components {
         };
         /** @description Response receive after creating an account */
         SignUpResponseDto: {
+            /** @example jdoe@gmail.com */
+            emailAddress: string;
             /** @example 6e426018-4251-4c2c-85db-23e8f9af19ae */
             userId: string;
-            /** @example john-doe */
-            username: string;
         };
         CurrentUserResponseDto: {
             /**
@@ -156,6 +150,11 @@ export interface components {
              * @example 2691fc73-e784-4e4c-a266-231f5992bfce
              */
             id: string;
+            /**
+             * @description Name of the user
+             * @example john doe
+             */
+            name: string;
         };
     };
     responses: never;
@@ -317,9 +316,7 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["SignInResponseDto"];
-                };
+                content?: never;
             };
             /** @description Internal server error */
             500: {

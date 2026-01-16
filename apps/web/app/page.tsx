@@ -1,9 +1,12 @@
-import { Button } from "@repo/ui/components/button";
+import { getAuthenticatedUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getAuthenticatedUser();
+  if (!user) redirect("/login");
   return (
-    <div className="h-screen flex justify-center items-center">
-      <Button variant={"destructive"}>Hello, world</Button>
+    <div>
+      <h1>Welcome Home</h1>
     </div>
   );
 }

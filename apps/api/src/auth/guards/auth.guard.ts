@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest<Request>();
-    const token = this.extractTokenFromHeader(request);
+    const token = this.extractTokenFromRequest(request);
     if (!token) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -42,7 +42,12 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  private extractTokenFromHeader(request: Request): string | undefined {
+  private extractTokenFromRequest(request: Request): string | undefined {
+    const cookieToken = (request.cookies as unknown as { token?: unknown })
+      ?.token;
+    if (typeof cookieToken === 'string' && cookieToken.length > 0) {
+      return cookieToken;
+    }
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }

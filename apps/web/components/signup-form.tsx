@@ -1,6 +1,6 @@
 "use client";
 
-
+import { $api } from "@/api/client";
 import { SignUpFormData, SignUpFormSchema } from "@/formSchemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
@@ -22,9 +22,26 @@ import { Input } from "@repo/ui/components/input";
 import { toast } from "@repo/ui/components/sonner";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+
+import { useRouter } from "next/navigation";
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+  const router = useRouter();
+
+  const { mutate: triggerSignUp } = $api.useMutation("post", "/auth/signup", {
+    onError: () => {
+      toast.error("There was an error while creating your account", {
+        position: "bottom-right",
+      });
+    },
+    onSuccess: () => {
+      toast.success(`Account successfully created`, {
+        position: "top-center",
+      });
+      router.push("/login");
+    },
+  });
+
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(SignUpFormSchema),
     defaultValues: {
@@ -34,9 +51,9 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
     },
   });
 
-  function onSubmit(data: SignUpFormData) {
-    toast.success(`You created a user named '${data.username}'.`, {
-      position: "bottom-right",
+  async function onSubmit(data: SignUpFormData) {
+    await triggerSignUp({
+      body: data,
     });
   }
 

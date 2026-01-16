@@ -10,4 +10,12 @@ export class CurrentUserResponseDto {
   @IsString()
   @IsUUID()
   id!: string;
+
+  @ApiProperty({
+    description: 'Name of the user',
+    example: 'john doe',
+  })
+  @IsNotEmpty()
+  @IsString()
+  name!: string;
 }

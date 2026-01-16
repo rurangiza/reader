@@ -59,6 +59,9 @@ importers:
       class-validator:
         specifier: ^0.14.3
         version: 0.14.3
+      cookie-parser:
+        specifier: ^1.4.7
+        version: 1.4.7
       eslint-plugin-perfectionist:
         specifier: ^5.2.0
         version: 5.2.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.2)
@@ -96,6 +99,9 @@ importers:
       '@types/bcrypt':
         specifier: ^6.0.0
         version: 6.0.0
+      '@types/cookie-parser':
+        specifier: ^1.4.10
+        version: 1.4.10(@types/express@5.0.6)
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.6
@@ -177,9 +183,18 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4.1.11
         version: 4.1.18
+      '@tanstack/react-query':
+        specifier: ^5.90.18
+        version: 5.90.18(react@19.2.3)
       next:
         specifier: 16.0.10
         version: 16.0.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      openapi-fetch:
+        specifier: ^0.15.0
+        version: 0.15.0
+      openapi-react-query:
+        specifier: ^0.5.1
+        version: 0.5.1(@tanstack/react-query@5.90.18(react@19.2.3))(openapi-fetch@0.15.0)
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -217,6 +232,9 @@ importers:
       eslint:
         specifier: ^9.39.1
         version: 9.39.2(jiti@2.6.1)
+      openapi-typescript:
+        specifier: ^7.10.1
+        version: 7.10.1(typescript@5.9.2)
       typescript:
         specifier: 5.9.2
         version: 5.9.2
@@ -1793,6 +1811,14 @@ packages:
   '@tailwindcss/postcss@4.1.18':
     resolution: {integrity: sha512-Ce0GFnzAOuPyfV5SxjXGn0CubwGcuDB0zcdaPuCSzAa/2vII24JTkH+I6jcbXLb1ctjZMZZI6OjDaLPJQL1S0g==}
 
+  '@tanstack/query-core@5.90.18':
+    resolution: {integrity: sha512-rbGx6bHgPNVzutP7BEr+53UPKohpckqlMAad+To9UxTbeaQ+kC/1SDRj+QzkwbQ7qhLT/1IKp34yS6thda6fzA==}
+
+  '@tanstack/react-query@5.90.18':
+    resolution: {integrity: sha512-KqNZX0C5IFz4639zR1ilnQ288tQdJrMNLtzmlzyJ14xauBkhtLEy3mPU/V4KiHsr41eL1ILZbDP36TB12lYfCQ==}
+    peerDependencies:
+      react: ^18 || ^19
+
   '@tokenizer/inflate@0.3.1':
     resolution: {integrity: sha512-4oeoZEBQdLdt5WmP/hx1KZ6D3/Oid/0cUb2nk4F0pTDAWy+KCH3/EnAkZF/bvckWo8I33EqBm01lIPgmgc8rCA==}
     engines: {node: '>=18'}
@@ -1846,6 +1872,11 @@ packages:
 
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
+
+  '@types/cookie-parser@1.4.10':
+    resolution: {integrity: sha512-B4xqkqfZ8Wek+rCOeRxsjMS9OgvzebEzzLYw7NHYuvzb7IdxOkI0ZHGgeEBX4PUM7QGVvNSK60T3OvWj3YfBRg==}
+    peerDependencies:
+      '@types/express': '*'
 
   '@types/cookiejar@2.1.5':
     resolution: {integrity: sha512-he+DHOWReW0nghN24E1WUqM0efK4kI9oTqDm6XmK8ZPe2djZ90BSNdGnIyCLzCPw7/pogPlGbzI2wHGGmi4O/Q==}
@@ -2681,6 +2712,13 @@ packages:
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
+
+  cookie-parser@1.4.7:
+    resolution: {integrity: sha512-nGUvgXnotP3BsjiLX2ypbQnWoGUPIIfHQNZkkC668ntrzGWEZVW70HDEB1qnNGMicPje6EttlIgzo51YSwNQGw==}
+    engines: {node: '>= 0.8.0'}
+
+  cookie-signature@1.0.6:
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
 
   cookie-signature@1.2.2:
     resolution: {integrity: sha512-D76uU73ulSXrD1UXF4KE2TMxVVwhsnCgfAyTg9k8P6KGZjlXKrOLe4dJQKI3Bxi5wjesZoFXJWElNWBjPZMbhg==}
@@ -4331,6 +4369,18 @@ packages:
   onetime@5.1.2:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
     engines: {node: '>=6'}
+
+  openapi-fetch@0.15.0:
+    resolution: {integrity: sha512-OjQUdi61WO4HYhr9+byCPMj0+bgste/LtSBEcV6FzDdONTs7x0fWn8/ndoYwzqCsKWIxEZwo4FN/TG1c1rI8IQ==}
+
+  openapi-react-query@0.5.1:
+    resolution: {integrity: sha512-BzUDxICV9v8584pBiGM9jgCqSBBp/mP91SJ68Pu7PqeppqfWxazi3vVaMup5Acjxv3cN9GbV6xuVHfbGsJfexw==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.80.0
+      openapi-fetch: ^0.15.0
+
+  openapi-typescript-helpers@0.0.15:
+    resolution: {integrity: sha512-opyTPaunsklCBpTK8JGef6mfPhLSnyy5a0IN9vKtx3+4aExf+KxEqYwIy3hqkedXIB97u357uLMJsOnm3GVjsw==}
 
   openapi-typescript@7.10.1:
     resolution: {integrity: sha512-rBcU8bjKGGZQT4K2ekSTY2Q5veOQbVG/lTKZ49DeCyT9z62hM2Vj/LLHjDHC9W7LJG8YMHcdXpRZDqC1ojB/lw==}
@@ -7009,6 +7059,13 @@ snapshots:
       postcss: 8.5.6
       tailwindcss: 4.1.18
 
+  '@tanstack/query-core@5.90.18': {}
+
+  '@tanstack/react-query@5.90.18(react@19.2.3)':
+    dependencies:
+      '@tanstack/query-core': 5.90.18
+      react: 19.2.3
+
   '@tokenizer/inflate@0.3.1':
     dependencies:
       debug: 4.4.3(supports-color@10.2.2)
@@ -7101,6 +7158,10 @@ snapshots:
   '@types/connect@3.4.38':
     dependencies:
       '@types/node': 22.19.3
+
+  '@types/cookie-parser@1.4.10(@types/express@5.0.6)':
+    dependencies:
+      '@types/express': 5.0.6
 
   '@types/cookiejar@2.1.5': {}
 
@@ -8050,6 +8111,13 @@ snapshots:
   content-type@1.0.5: {}
 
   convert-source-map@2.0.0: {}
+
+  cookie-parser@1.4.7:
+    dependencies:
+      cookie: 0.7.2
+      cookie-signature: 1.0.6
+
+  cookie-signature@1.0.6: {}
 
   cookie-signature@1.2.2: {}
 
@@ -10021,6 +10089,18 @@ snapshots:
   onetime@5.1.2:
     dependencies:
       mimic-fn: 2.1.0
+
+  openapi-fetch@0.15.0:
+    dependencies:
+      openapi-typescript-helpers: 0.0.15
+
+  openapi-react-query@0.5.1(@tanstack/react-query@5.90.18(react@19.2.3))(openapi-fetch@0.15.0):
+    dependencies:
+      '@tanstack/react-query': 5.90.18(react@19.2.3)
+      openapi-fetch: 0.15.0
+      openapi-typescript-helpers: 0.0.15
+
+  openapi-typescript-helpers@0.0.15: {}
 
   openapi-typescript@7.10.1(typescript@5.9.2):
     dependencies:
