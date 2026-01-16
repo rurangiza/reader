@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "@repo/ui/globals.css";
 
+import { Toaster } from "@repo/ui/components/sonner";
+
 import type { Metadata } from "next";
 
 const fontSans = Geist({
@@ -27,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fontSans.variable} ${fontMono.variable}`}>
+        <Toaster />
         {children}
       </body>
     </html>

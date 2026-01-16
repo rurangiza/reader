@@ -1,5 +1,11 @@
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
-import { IsAlphanumeric, IsNotEmpty, IsString, Length } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsStrongPassword,
+  Length,
+  Matches,
+} from 'class-validator';
 
 @ApiSchema({
   description: 'Login credentials',
@@ -11,6 +17,13 @@ export class SignInDto {
   })
   @IsNotEmpty()
   @IsString()
+  @IsStrongPassword({
+    minLowercase: 1,
+    minNumbers: 1,
+    minSymbols: 1,
+    minUppercase: 1,
+  })
+  @Length(12, 64)
   password!: string;
 
   @ApiProperty({
@@ -18,9 +31,9 @@ export class SignInDto {
     example: 'john-doe',
     type: String,
   })
-  @IsAlphanumeric()
   @IsNotEmpty()
   @IsString()
   @Length(3, 32)
+  @Matches(/^[a-zA-Z0-9-]+$/)
   username!: string;
 }
