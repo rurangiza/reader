@@ -16,6 +16,7 @@ Scatfold
 - [x] create ui package that uses shadcn + tailwind
 - [ ] create basic UI for login and book management
 - [ ] connect frontend to api (ky + react query + openapi)
+- [ ] improve error handling and [logging](https://betterstack.com/community/guides/logging/)
 
 CI
 - [ ] ensure linting, formating and tsc checks run on save, commit and push (husky, GH actions)
@@ -23,6 +24,10 @@ CI
 - [ ] run tests on commit, push
 
 CD
-- [ ] setup test and prod database (ex: aws db.t3.micro)
-- [ ] connect database to application
-- [ ] monitoring (opentelemetry, prometheus, grafana)
+- [ ] setup and run test and prod database (ex: aws db.t3.micro)
+- [ ] deploy backend + connect to db
+- [ ] deploy frontend
+- [ ] add monitoring (opentelemetry, prometheus, grafana)
+- [ ] apply db migrations based on branching/merging strategy
+- [ ] run terrafrom apply
+- [ ] add manual approval for PROD deployments
