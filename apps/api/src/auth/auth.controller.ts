@@ -30,11 +30,11 @@ export class AuthController {
     @Body() signInDto: SignInDto,
     @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
-    const result = await this.authService.signIn(
+    const { access_token } = await this.authService.signIn(
       signInDto.emailAddress,
       signInDto.password,
     );
-    response.cookie('token', result.access_token, {
+    response.cookie('token', access_token, {
       httpOnly: true,
       path: '/',
       sameSite: 'lax',

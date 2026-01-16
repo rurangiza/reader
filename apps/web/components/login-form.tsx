@@ -45,13 +45,11 @@ export function LoginForm({
   });
 
   const { mutate: triggerLogin } = $api.useMutation("post", "/auth/signin", {
-    onError: (data) => {
-      console.log({ LOGIN_FAILED: data });
+    onError: () => {
       toast.error("There was an error while login", {});
     },
-    onSuccess: (data) => {
-      console.log({ LOGIN_SUCCEDED: data });
-      // assume the session token has been set in the header
+    onSuccess: () => {
+      // assumes the token was added in headers
       router.push("/me");
     },
   });

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 import { components } from "@api/types/api";
 
@@ -10,22 +10,18 @@ function getApiBaseUrl() {
   return process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
 }
 
-export async function getAuthToken(): Promise<string | null> {
-  return (await cookies()).get("token")?.value ?? null;
-}
-
 export async function getAuthenticatedUser(): Promise<AuthenticatedUser | null> {
-  const token = await getAuthToken();
+  const token = (await cookies()).get("token")?.value;
   if (!token) return null;
 
+  const cookieHeader = (await headers()).get("cookie");
   const result = await fetch(`${getApiBaseUrl()}/users/me`, {
     method: "get",
     headers: {
-      Authorization: `Bearer ${token}`,
+      cookie: cookieHeader ?? "",
     },
     cache: "no-store",
   });
   if (!result.ok) return null;
   return result.json();
-  // return res.ok;
 }

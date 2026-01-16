@@ -17,16 +17,18 @@ Scaffold
 - [ ] create basic UI for login/signup
   - [x] added the login and signup components
   - [x] validate the inputs (zod)
-  - [ ] connect to the backend + simple signs of login
+  - [x] connect to the backend + simple signs of login
     - [x] convert swagger specs to types
-    - [ ] setup React query with openapi integration
-    - [ ] add calls
+    - [x] setup React query with openapi integration
+    - [x] add calls
+    - [ ] add logout functionality
 - [ ] create book management ui
   - [ ] ensure each route requires login
   - [ ] create UI for all CRUD operations
 - [ ] create UI to read books, chapter by chapter
 - [ ] connect frontend to api (ky + react query + openapi)
 - [ ] improve error handling and [logging](https://betterstack.com/community/guides/logging/)
+- [ ] document design decisions
 
 > [!NOTE]
 > Outcome: I'll be able to run the app localy, sign-up then login, and manage books.
