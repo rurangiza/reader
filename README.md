@@ -18,6 +18,9 @@ Scaffold
   - [x] added the login and signup components
   - [x] validate the inputs (zod)
   - [ ] connect to the backend + simple signs of login
+    - [x] convert swagger specs to types
+    - [ ] setup React query with openapi integration
+    - [ ] add calls
 - [ ] create book management ui
   - [ ] ensure each route requires login
   - [ ] create UI for all CRUD operations
