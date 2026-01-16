@@ -6,8 +6,37 @@ Reader is a web app that facilitates active reading. The goal is to create a spa
 
 ![Image by thewordlyhabitat](./docs/annotation_illustrated.jpg)
 
-# Try it
-> Soon
+# Todo's
+Scaffold
+- [x] setup turborepo (w/Nextjs and Nestjs)
+- [x] add CRUD operations for books with in-memory db (object)
+- [x] run Postgres in container for local dev
+- [x] access db with Prisma -> create database package
+- [x] add authentication
+- [x] create ui package that uses shadcn + tailwind
+- [ ] create basic UI for login and book management
+- [ ] connect frontend to api (ky + react query + openapi)
+- [ ] improve error handling and [logging](https://betterstack.com/community/guides/logging/)
 
-# How it works
-> Diagrams coming up
+> [!NOTE]
+> Outcome: I'll be able to run the app localy, sign-up then login, and manage books.
+
+CI
+- [ ] ensure linting, formating and tsc checks run on save, commit and push (husky, GH actions)
+- [ ] add tests (Jest: unit, integration tests). 80% coverage
+- [ ] run tests on commit, push
+
+> [!NOTE]
+> Outcome: I can quickly make changes and feel confident nothing will break.
+
+CD
+- [ ] setup and run test and prod database (ex: aws db.t3.micro)
+- [ ] deploy backend + connect to db
+- [ ] deploy frontend
+- [ ] add monitoring (opentelemetry, prometheus, grafana)
+- [ ] apply db migrations based on branching/merging strategy
+- [ ] run terrafrom apply
+- [ ] add manual approval for PROD deployments, only if TEST deployed successfully
+
+> [!NOTE]
+> Outcome: the app is accessible by everone. It's production-ready, observable, fault-tolerant and allows deployements in <2min.
