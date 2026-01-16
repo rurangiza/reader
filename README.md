@@ -7,7 +7,7 @@ Reader is a web app that facilitates active reading. The goal is to create a spa
 ![Image by thewordlyhabitat](./docs/annotation_illustrated.jpg)
 
 # Todo's
-Scatfold
+Scatffold
 - [x] setup turborepo (w/Nextjs and Nestjs)
 - [x] add CRUD operations for books with in-memory db (object)
 - [x] run Postgres in container for local dev
