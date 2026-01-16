@@ -18,15 +18,17 @@ ALTER TABLE "Chapter" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT C
 -- CreateTable
 CREATE TABLE "User" (
     "id" UUID NOT NULL,
-    "username" VARCHAR(64) NOT NULL,
-    "password" VARCHAR(64) NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "name" VARCHAR(32) NOT NULL,
+    "emailAddress" VARCHAR(64) NOT NULL,
+    "passwordHash" VARCHAR(255) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+CREATE UNIQUE INDEX "User_emailAddress_key" ON "User"("emailAddress");
 
 -- AddForeignKey
 ALTER TABLE "Book" ADD CONSTRAINT "Book_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

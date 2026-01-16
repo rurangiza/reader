@@ -17,6 +17,7 @@ export const User = createParamDecorator(
     }
     return {
       id: request.user.sub,
+      name: request.user.username,
     };
   },
 );

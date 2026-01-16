@@ -25,7 +25,7 @@ export class AuthController {
   @Post('sign-in')
   @Public()
   signIn(@Body() signInDto: SignInDto): Promise<SignInResponseDto> {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+    return this.authService.signIn(signInDto.emailAddress, signInDto.password);
   }
 
   @ApiSignUp()
@@ -33,6 +33,10 @@ export class AuthController {
   @Post('sign-up')
   @Public()
   signUp(@Body() signInDto: SignUpDto): Promise<SignUpResponseDto> {
-    return this.authService.signUp(signInDto.username, signInDto.password);
+    return this.authService.signUp(
+      signInDto.username,
+      signInDto.emailAddress,
+      signInDto.password,
+    );
   }
 }

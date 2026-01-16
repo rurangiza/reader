@@ -15,7 +15,7 @@ async function main() {
     return await prisma.user.create({
       data: {
         username: name,
-        password: await bcrypt.hash(pass, SALTORROUND),
+        passwordHash: await bcrypt.hash(pass, SALTORROUND),
       },
     });
   }

@@ -10,7 +10,7 @@ const MIN_PASS_LENGTH = 12;
 export class UsersService {
   constructor(private readonly database: DatabaseService) {}
 
-  async create(username: string, password: string) {
+  async create(username: string, emailAddress: string, password: string) {
     if (
       !password ||
       typeof password !== 'string' ||
@@ -20,27 +20,37 @@ export class UsersService {
       throw new BadRequestException('Invalid password');
     }
 
-    const hash = await bcrypt.hash(password, SALTORROUND);
+    const passwordHash = await bcrypt.hash(password, SALTORROUND);
     return this.database.user.create({
       data: {
-        password: hash,
-        username,
+        createdAt: new Date(),
+        emailAddress,
+        name: username,
+        passwordHash,
       },
     });
   }
 
-  async findByName(username: string) {
+  async findByEmailAddress(emailAddress: string) {
     return await this.database.user.findFirst({
       where: {
-        username,
+        emailAddress,
       },
     });
   }
 
-  async findOne(id: string) {
+  async findById(id: string) {
     return this.database.user.findFirst({
       where: {
         id,
+      },
+    });
+  }
+
+  async findByName(name: string) {
+    return await this.database.user.findFirst({
+      where: {
+        name,
       },
     });
   }

@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
@@ -16,26 +20,47 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(username: string, pass: string): Promise<SignInResponseDto> {
-    const user = await this.usersService.findByName(username);
+  async signIn(
+    emailAddress: string,
+    password: string,
+  ): Promise<SignInResponseDto> {
+    const user = await this.usersService.findByEmailAddress(emailAddress);
 
-    const hash = user?.password ?? DUMMY_BCRYPT_HASH;
-    const isValid = await bcrypt.compare(pass, hash);
+    const hash = user?.passwordHash ?? DUMMY_BCRYPT_HASH;
+    const isValid = await bcrypt.compare(password, hash);
     if (!user || !isValid) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = { sub: user.id, username: user.username };
+    const payload = {
+      email: user.emailAddress,
+      sub: user.id,
+      username: user.name,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
 
-  async signUp(username: string, password: string): Promise<SignUpResponseDto> {
-    const user = await this.usersService.create(username, password);
+  async signUp(
+    username: string,
+    emailAddress: string,
+    password: string,
+  ): Promise<SignUpResponseDto> {
+    const existingUser =
+      await this.usersService.findByEmailAddress(emailAddress);
+    if (existingUser) {
+      throw new BadRequestException(`Email already used`);
+    }
+
+    const user = await this.usersService.create(
+      username,
+      emailAddress,
+      password,
+    );
     return {
+      emailAddress: user.emailAddress,
       userId: user.id,
-      username: user.username,
     };
   }
 }

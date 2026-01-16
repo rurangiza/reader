@@ -14,9 +14,14 @@ Scaffold
 - [x] access db with Prisma -> create database package
 - [x] add authentication
 - [x] create ui package that uses shadcn + tailwind
-- [ ] create basic UI for login and book management
+- [ ] create basic UI for login/signup
   - [x] added the login and signup components
-  - [ ] validate the inputs (zod)
+  - [x] validate the inputs (zod)
+  - [ ] connect to the backend + simple signs of login
+- [ ] create book management ui
+  - [ ] ensure each route requires login
+  - [ ] create UI for all CRUD operations
+- [ ] create UI to read books, chapter by chapter
 - [ ] connect frontend to api (ky + react query + openapi)
 - [ ] improve error handling and [logging](https://betterstack.com/community/guides/logging/)
 
