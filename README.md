@@ -7,7 +7,7 @@ Reader is a web app that facilitates active reading. The goal is to create a spa
 ![Image by thewordlyhabitat](./docs/annotation_illustrated.jpg)
 
 # Todo's
-Scatffold
+Scaffold
 - [x] setup turborepo (w/Nextjs and Nestjs)
 - [x] add CRUD operations for books with in-memory db (object)
 - [x] run Postgres in container for local dev
@@ -20,7 +20,7 @@ Scatffold
 
 CI
 - [ ] ensure linting, formating and tsc checks run on save, commit and push (husky, GH actions)
-- [ ] add tests (Jest: unit, integration tests). 80%
+- [ ] add tests (Jest: unit, integration tests). 80% coverage
 - [ ] run tests on commit, push
 
 CD
