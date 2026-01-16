@@ -6,8 +6,23 @@ Reader is a web app that facilitates active reading. The goal is to create a spa
 
 ![Image by thewordlyhabitat](./docs/annotation_illustrated.jpg)
 
-# Try it
-> Soon
+# Todo's
+Scatfold
+- [x] setup turborepo (w/Nextjs and Nestjs)
+- [x] add CRUD operations for books with in-memory db (object)
+- [x] run Postgres in container for local dev
+- [x] access db with Prisma -> create database package
+- [x] add authentication
+- [x] create ui package that uses shadcn + tailwind
+- [ ] create basic UI for login and book management
+- [ ] connect frontend to api (ky + react query + openapi)
 
-# How it works
-> Diagrams coming up
+CI
+- [ ] ensure linting, formating and tsc checks run on save, commit and push (husky, GH actions)
+- [ ] add tests (Jest: unit, integration tests). 80%
+- [ ] run tests on commit, push
+
+CD
+- [ ] setup test and prod database (ex: aws db.t3.micro)
+- [ ] connect database to application
+- [ ] monitoring (opentelemetry, prometheus, grafana)
