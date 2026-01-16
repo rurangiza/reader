@@ -1,6 +1,7 @@
 "use client";
 
-import { signupSchema } from "@/formSchemas/signup";
+
+import { SignUpFormData, SignUpFormSchema } from "@/formSchemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
 import {
@@ -24,15 +25,16 @@ import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
-  const form = useForm<z.infer<typeof signupSchema>>({
-    resolver: zodResolver(signupSchema),
+  const form = useForm<SignUpFormData>({
+    resolver: zodResolver(SignUpFormSchema),
     defaultValues: {
       username: "",
       password: "",
+      emailAddress: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof signupSchema>) {
+  function onSubmit(data: SignUpFormData) {
     toast.success(`You created a user named '${data.username}'.`, {
       position: "bottom-right",
     });
@@ -59,6 +61,26 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                     id={field.name}
                     type={field.name}
                     placeholder="jane-doe"
+                    aria-invalid={fieldState.invalid}
+                    {...field}
+                    required
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              name="emailAddress"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                  <Input
+                    id={field.name}
+                    type={field.name}
+                    placeholder="jdoe@gmail.com"
                     aria-invalid={fieldState.invalid}
                     {...field}
                     required

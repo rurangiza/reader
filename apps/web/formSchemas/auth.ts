@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-export const signupSchema = z.object({
+export const LoginFormSchema = z.object({
   username: z
     .string()
     .min(3, "Username must be at least 3 characters.")
@@ -15,3 +15,13 @@ export const signupSchema = z.object({
     .regex(/[0-9]/, "Password must contain at least one number")
     .regex(/[^a-zA-Z0-9]/, "Password must contain at least one symbol"),
 });
+
+export const SignUpFormSchema = LoginFormSchema.extend({
+  emailAddress: z
+    .string()
+    .email()
+    .max(64, "Password must be at most 64 characters."),
+});
+
+export type LoginFormData = z.TypeOf<typeof LoginFormSchema>;
+export type SignUpFormData = z.TypeOf<typeof SignUpFormSchema>;

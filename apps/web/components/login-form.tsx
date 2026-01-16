@@ -26,21 +26,21 @@ import * as z from "zod";
 
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema } from "@/formSchemas/signup";
+import { LoginFormData, LoginFormSchema } from "@/formSchemas/auth";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const form = useForm<z.infer<typeof signupSchema>>({
-    resolver: zodResolver(signupSchema),
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(LoginFormSchema),
     defaultValues: {
       username: "",
       password: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof signupSchema>) {
+  function onSubmit(data: LoginFormData) {
     toast.success("You submitted the login form.", {
       position: "bottom-right",
       description: "You clicked",
