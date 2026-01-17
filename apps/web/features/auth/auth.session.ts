@@ -2,23 +2,16 @@ import "server-only";
 
 import { cookies } from "next/headers";
 
-import { components } from "@api/types/api";
 import { cache } from "react";
 
 import ky from "ky";
-
-type AuthenticatedUser = components["schemas"]["CurrentUserResponseDto"];
+import { User } from "../user/user.types";
 
 function getApiBaseUrl() {
   return process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
 }
 
-interface UserDTO {
-  id: string;
-  name: string;
-}
-
-export const getCurrentUser = cache(async (): Promise<UserDTO | null> => {
+export const getCurrentUser = cache(async (): Promise<User | null> => {
   const cookieHeader = await cookies();
   const authToken = cookieHeader.get("AUTH_TOKEN")?.value;
   if (!authToken) return null;
@@ -31,12 +24,12 @@ export const getCurrentUser = cache(async (): Promise<UserDTO | null> => {
         },
         cache: "no-store",
       })
-      .json<AuthenticatedUser>();
+      .json<User>();
     return {
       id: user.id,
       name: user.name,
+      emailAddress: user.emailAddress,
     };
-    // return new UserDTO(user.id, user.name);
   } catch {
     // TODO: securely log this unexpected failure
     return null;

@@ -18,4 +18,12 @@ export class CurrentUserResponseDto {
   @IsNotEmpty()
   @IsString()
   name!: string;
+
+  @ApiProperty({
+    description: 'Email address of the user',
+    example: 'john@gmail.com',
+  })
+  @IsNotEmpty()
+  @IsString()
+  emailAddress!: string;
 }

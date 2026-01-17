@@ -6,7 +6,6 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Request,
   Res,
 } from '@nestjs/common';
 
@@ -18,10 +17,14 @@ import { Public } from './decorator/public.decorator';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpResponseDto } from './dto/sign-up-response.dto';
 import { SignUpDto } from './dto/sign-up.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private configService: ConfigService,
+  ) {}
 
   @ApiLogout()
   @HttpCode(HttpStatus.OK)
@@ -45,7 +48,7 @@ export class AuthController {
       httpOnly: true,
       path: '/',
       sameSite: 'lax',
-      secure: false, // TODO: change this for prod
+      secure: this.configService.get('NODE_ENV') === 'production',
     });
   }
 

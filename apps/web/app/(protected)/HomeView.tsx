@@ -1,10 +1,11 @@
 "use client";
 
 import { AppSidebar } from "@/components/app-sidebar";
-import type { User } from "@/features/user/types";
 import { useCurrentUser } from "@/features/user/user.store";
 import { SidebarInset, SidebarTrigger } from "@repo/ui/components/sidebar";
 import { useEffect, useState } from "react";
+
+import { User } from "@/features/user/user.types";
 
 interface HomeViewProps {
   children: React.ReactNode;

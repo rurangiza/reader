@@ -21,8 +21,8 @@ CREATE TABLE "User" (
     "name" VARCHAR(32) NOT NULL,
     "emailAddress" VARCHAR(64) NOT NULL,
     "passwordHash" VARCHAR(255) NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

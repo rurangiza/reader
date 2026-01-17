@@ -19,9 +19,6 @@ export function LogouOutMenuItem() {
       router.push("/login");
     },
     onSuccess: () => {
-      toast.success("You're logged out", {
-        position: "top-center",
-      });
       router.push("/login");
     },
   });

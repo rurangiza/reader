@@ -22,7 +22,6 @@ import { Input } from "@repo/ui/components/input";
 import { Controller, useForm } from "react-hook-form";
 
 import { toast } from "@repo/ui/components/sonner";
-import * as z from "zod";
 
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -46,7 +45,9 @@ export function LoginForm({
 
   const { mutate: triggerLogin } = $api.useMutation("post", "/auth/signin", {
     onError: () => {
-      toast.error("There was an error while login", {});
+      toast.error("Email and/or password are incorrect", {
+        position: "top-center",
+      });
     },
     onSuccess: () => {
       // assumes the auth token was added in headers

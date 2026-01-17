@@ -21,7 +21,9 @@ import { BookResponseDto } from './dto/book-response.dto';
 import { CreateBookDto } from './dto/create-book.dto';
 import { GetBookParamsDto } from './dto/get-book-params.dto';
 import { RemoveBookParamsDto } from './dto/remove-book-params.dto';
+import { ApiCookieAuth } from '@nestjs/swagger';
 
+@ApiCookieAuth('AUTH_TOKEN')
 @Controller('books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}

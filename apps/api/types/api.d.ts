@@ -172,6 +172,11 @@ export interface components {
              * @example john doe
              */
             name: string;
+            /**
+             * @description Email address of the user
+             * @example john@gmail.com
+             */
+            emailAddress: string;
         };
     };
     responses: never;
@@ -355,6 +360,8 @@ export interface operations {
         responses: {
             200: {
                 headers: {
+                    /** @description Authentication cookie. The server sets an HttpOnly cookie named AUTH_TOKEN on successful login. */
+                    "Set-Cookie"?: string;
                     [name: string]: unknown;
                 };
                 content?: never;
