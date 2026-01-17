@@ -1,14 +1,14 @@
 "use client";
 
-import * as React from "react";
-
-import { NavUser } from "@/features/user/NavUser";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarRail,
 } from "@repo/ui/components/sidebar";
+import * as React from "react";
+
+import { NavUser } from "@/features/user/NavUser";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (

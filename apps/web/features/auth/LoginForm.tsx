@@ -1,8 +1,7 @@
 "use client";
 
-import { cn } from "@repo/ui/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
-
 import {
   Card,
   CardContent,
@@ -18,16 +17,14 @@ import {
   FieldLabel,
 } from "@repo/ui/components/field";
 import { Input } from "@repo/ui/components/input";
-
+import { toast } from "@repo/ui/components/sonner";
+import { cn } from "@repo/ui/lib/utils";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 
-import { toast } from "@repo/ui/components/sonner";
-
-import Link from "next/link";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginFormData, loginSchema } from "@/features/auth/auth.schemas";
 import { $api } from "@/features/api/client";
-import { useRouter } from "next/navigation";
+import { LoginFormData, loginSchema } from "@/features/auth/auth.schemas";
 
 export function LoginForm({
   className,
@@ -36,11 +33,11 @@ export function LoginForm({
   const router = useRouter();
 
   const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
     defaultValues: {
       emailAddress: "",
       password: "",
     },
+    resolver: zodResolver(loginSchema),
   });
 
   const { mutate: triggerLogin } = $api.useMutation("post", "/auth/signin", {
@@ -55,8 +52,8 @@ export function LoginForm({
     },
   });
 
-  async function onSubmit(data: LoginFormData) {
-    await triggerLogin({
+  function onSubmit(data: LoginFormData) {
+    triggerLogin({
       body: data,
     });
   }
@@ -74,17 +71,17 @@ export function LoginForm({
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
               <Controller
-                name="emailAddress"
                 control={form.control}
+                name="emailAddress"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Email</FieldLabel>
                     <Input
+                      aria-invalid={fieldState.invalid}
                       id={field.name}
-                      type={field.name}
                       placeholder="jdoe@gmail.com"
                       required
-                      aria-invalid={fieldState.invalid}
+                      type={field.name}
                       {...field}
                     />
                     {fieldState.invalid && (
@@ -94,8 +91,8 @@ export function LoginForm({
                 )}
               />
               <Controller
-                name="password"
                 control={form.control}
+                name="password"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <div className="flex items-center">
@@ -103,8 +100,8 @@ export function LoginForm({
                     </div>
                     <Input
                       id={field.name}
-                      type={field.name}
                       required
+                      type={field.name}
                       {...field}
                       aria-invalid={fieldState.invalid}
                     />

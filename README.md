@@ -21,7 +21,7 @@ Scaffold
     - [x] convert swagger specs to types
     - [x] setup React query with openapi integration
     - [x] add calls
-    - [ ] add logout [current browser session]
+    - [x] add logout [current browser session]
 - [ ] book management view
   - [ ] add ui
   - [ ] call api to list books

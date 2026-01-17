@@ -1,7 +1,8 @@
+import type { AuthenticatedUser } from 'src/auth/types/authenticated-user';
+
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from 'src/auth/decorator/user.decorator';
-import type { AuthenticatedUser } from 'src/auth/types/authenticated-user';
 
 import { CurrentUserResponseDto } from './dto/get-current-user-response.dto';
 

@@ -5,23 +5,6 @@ import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
 
-function getAllowedOrigins() {
-  const defaultAllowedOrigins = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-  ];
-
-  const allowedOriginsEnv = process.env.ALLOWED_ORIGINS?.trim();
-  if (!allowedOriginsEnv) return defaultAllowedOrigins;
-
-  const allowedOrigins = allowedOriginsEnv
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean);
-
-  return allowedOrigins.length ? allowedOrigins : defaultAllowedOrigins;
-}
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -36,9 +19,9 @@ async function bootstrap() {
     .setDescription('The Reader API')
     .setVersion('1.0')
     .addCookieAuth('AUTH_TOKEN', {
-      type: 'apiKey',
       in: 'cookie',
       name: 'AUTH_TOKEN',
+      type: 'apiKey',
     })
     .addGlobalResponse({
       description: 'Internal server error',
@@ -57,6 +40,23 @@ async function bootstrap() {
   });
 
   await app.listen(process.env.PORT ?? 4000);
+}
+
+function getAllowedOrigins() {
+  const defaultAllowedOrigins = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+  ];
+
+  const allowedOriginsEnv = process.env.ALLOWED_ORIGINS?.trim();
+  if (!allowedOriginsEnv) return defaultAllowedOrigins;
+
+  const allowedOrigins = allowedOriginsEnv
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  return allowedOrigins.length ? allowedOrigins : defaultAllowedOrigins;
 }
 bootstrap().catch((e) => {
   console.log(e);

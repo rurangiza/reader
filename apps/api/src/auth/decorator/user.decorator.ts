@@ -1,4 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+
 import { AuthenticatedRequest } from '../types/authenticated-request';
 import { AuthenticatedUser } from '../types/authenticated-user';
 
@@ -9,9 +10,9 @@ export const User = createParamDecorator(
       throw new Error('Missing user info');
     }
     return {
+      emailAddress: request.user.emailAddress,
       id: request.user.sub,
       name: request.user.username,
-      emailAddress: request.user.emailAddress,
     };
   },
 );

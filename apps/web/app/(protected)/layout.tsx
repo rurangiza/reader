@@ -1,5 +1,7 @@
-import { getCurrentUser } from "@/features/auth/auth.session";
 import { redirect } from "next/navigation";
+
+import { getCurrentUser } from "@/features/auth/auth.session";
+
 import { HomeView } from "./HomeView";
 
 export default async function ProtectedLayout({
@@ -12,7 +14,7 @@ export default async function ProtectedLayout({
 
   return (
     <>
-      <HomeView children={children} user={user} />
+      <HomeView user={user}>{children}</HomeView>
     </>
   );
 }

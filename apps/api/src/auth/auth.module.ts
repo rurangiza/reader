@@ -18,8 +18,10 @@ import { AuthGuard } from './guards/auth.guard';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '60s' },
+        secret: config.get('JWT_SECRET'),
+        signOptions: {
+          expiresIn: config.get('JWT_ACCESS_TOKEN_EXPIRES_IN'),
+        },
       }),
     }),
   ],

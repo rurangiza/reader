@@ -1,6 +1,7 @@
-import { SignupForm } from "@/features/auth/SignupForm";
-import { getCurrentUser } from "@/features/auth/auth.session";
 import { redirect } from "next/navigation";
+
+import { getCurrentUser } from "@/features/auth/auth.session";
+import { SignupForm } from "@/features/auth/SignupForm";
 
 export default async function Page() {
   const user = await getCurrentUser();

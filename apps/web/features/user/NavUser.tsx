@@ -1,7 +1,5 @@
 "use client";
 
-import { ChevronsUpDown } from "lucide-react";
-
 import { Avatar, AvatarFallback } from "@repo/ui/components/avatar";
 import {
   DropdownMenu,
@@ -14,6 +12,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@repo/ui/components/sidebar";
+import { ChevronsUpDown } from "lucide-react";
+
 import { LogouOutMenuItem } from "@/features/auth/LogoutMenuItem";
 import { useCurrentUser } from "@/features/user/user.store";
 
@@ -27,8 +27,8 @@ export function NavUser() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
-              size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
+              size="lg"
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarFallback className="rounded-lg">
@@ -43,9 +43,9 @@ export function NavUser() {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
+            align="end"
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "top"}
-            align="end"
             sideOffset={4}
           >
             <LogouOutMenuItem />
