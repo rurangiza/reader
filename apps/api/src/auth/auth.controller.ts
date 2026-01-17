@@ -8,6 +8,7 @@ import {
   Post,
   Res,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import { AuthService } from './auth.service';
 import { ApiLogout } from './decorator/api-logout.decorator';
@@ -17,7 +18,6 @@ import { Public } from './decorator/public.decorator';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpResponseDto } from './dto/sign-up-response.dto';
 import { SignUpDto } from './dto/sign-up.dto';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {

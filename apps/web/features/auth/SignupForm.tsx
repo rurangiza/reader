@@ -1,7 +1,5 @@
 "use client";
 
-import { $api } from "@/features/api/client";
-import { SignUpFormData, signupSchema } from "@/features/auth/auth.schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
 import {
@@ -21,9 +19,11 @@ import {
 import { Input } from "@repo/ui/components/input";
 import { toast } from "@repo/ui/components/sonner";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 
-import { useRouter } from "next/navigation";
+import { $api } from "@/features/api/client";
+import { SignUpFormData, signupSchema } from "@/features/auth/auth.schemas";
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
@@ -43,16 +43,16 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   });
 
   const form = useForm<SignUpFormData>({
-    resolver: zodResolver(signupSchema),
     defaultValues: {
-      username: "",
-      password: "",
       emailAddress: "",
+      password: "",
+      username: "",
     },
+    resolver: zodResolver(signupSchema),
   });
 
-  async function onSubmit(data: SignUpFormData) {
-    await triggerSignUp({
+  function onSubmit(data: SignUpFormData) {
+    triggerSignUp({
       body: data,
     });
   }
@@ -69,16 +69,16 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <Controller
-              name="username"
               control={form.control}
+              name="username"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>Username</FieldLabel>
                   <Input
-                    id={field.name}
-                    type={field.name}
-                    placeholder="jane-doe"
                     aria-invalid={fieldState.invalid}
+                    id={field.name}
+                    placeholder="jane-doe"
+                    type={field.name}
                     {...field}
                     required
                   />
@@ -89,16 +89,16 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               )}
             />
             <Controller
-              name="emailAddress"
               control={form.control}
+              name="emailAddress"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>Email</FieldLabel>
                   <Input
-                    id={field.name}
-                    type={field.name}
-                    placeholder="jdoe@gmail.com"
                     aria-invalid={fieldState.invalid}
+                    id={field.name}
+                    placeholder="jdoe@gmail.com"
+                    type={field.name}
                     {...field}
                     required
                   />
@@ -109,16 +109,16 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               )}
             />
             <Controller
-              name="password"
               control={form.control}
+              name="password"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>Password</FieldLabel>
                   <Input
-                    id={field.name}
-                    type={field.name}
-                    required
                     aria-invalid={fieldState.invalid}
+                    id={field.name}
+                    required
+                    type={field.name}
                     {...field}
                   />
                   {fieldState.invalid && (

@@ -1,10 +1,11 @@
 "use client";
 
-import { LogOut as LogOutIcon } from "lucide-react";
-import { $api } from "@/features/api/client";
-import { toast } from "@repo/ui/components/sonner";
-import { useRouter } from "next/navigation";
 import { DropdownMenuItem } from "@repo/ui/components/dropdown-menu";
+import { toast } from "@repo/ui/components/sonner";
+import { LogOut as LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import { $api } from "@/features/api/client";
 
 export function LogouOutMenuItem() {
   const router = useRouter();
@@ -23,8 +24,8 @@ export function LogouOutMenuItem() {
     },
   });
 
-  async function handleLogout() {
-    await triggerLogout({});
+  function handleLogout() {
+    triggerLogout({});
   }
   return (
     <DropdownMenuItem onClick={handleLogout}>

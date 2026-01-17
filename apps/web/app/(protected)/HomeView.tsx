@@ -1,10 +1,10 @@
 "use client";
 
-import { AppSidebar } from "@/components/app-sidebar";
-import { useCurrentUser } from "@/features/user/user.store";
 import { SidebarInset, SidebarTrigger } from "@repo/ui/components/sidebar";
 import { useEffect, useState } from "react";
 
+import { AppSidebar } from "@/components/app-sidebar";
+import { useCurrentUser } from "@/features/user/user.store";
 import { User } from "@/features/user/user.types";
 
 interface HomeViewProps {
