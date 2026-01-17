@@ -1,7 +1,7 @@
 "use client";
 
-import { $api } from "@/api/client";
-import { SignUpFormData, SignUpFormSchema } from "@/formSchemas/auth";
+import { $api } from "@/features/api/client";
+import { SignUpFormData, signupSchema } from "@/features/auth/auth.schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
 import {
@@ -43,7 +43,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   });
 
   const form = useForm<SignUpFormData>({
-    resolver: zodResolver(SignUpFormSchema),
+    resolver: zodResolver(signupSchema),
     defaultValues: {
       username: "",
       password: "",

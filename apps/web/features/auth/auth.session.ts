@@ -10,14 +10,12 @@ import ky from "ky";
 type AuthenticatedUser = components["schemas"]["CurrentUserResponseDto"];
 
 function getApiBaseUrl() {
-  return process.env.INTERNAL_API_BASE_URL ?? "http://localhost:4000";
+  return process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
 }
 
-class UserDTO {
-  constructor(
-    public id: string,
-    public name: string,
-  ) {}
+interface UserDTO {
+  id: string;
+  name: string;
 }
 
 export const getCurrentUser = cache(async (): Promise<UserDTO | null> => {
@@ -34,7 +32,11 @@ export const getCurrentUser = cache(async (): Promise<UserDTO | null> => {
         cache: "no-store",
       })
       .json<AuthenticatedUser>();
-    return new UserDTO(user.id, user.name);
+    return {
+      id: user.id,
+      name: user.name,
+    };
+    // return new UserDTO(user.id, user.name);
   } catch {
     // TODO: securely log this unexpected failure
     return null;

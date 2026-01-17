@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-export const LoginFormSchema = z.object({
+export const loginSchema = z.object({
   emailAddress: z
     .string()
     .email("Please enter a valid email.")
@@ -17,7 +17,7 @@ export const LoginFormSchema = z.object({
     .trim(),
 });
 
-export const SignUpFormSchema = LoginFormSchema.extend({
+export const signupSchema = loginSchema.extend({
   username: z
     .string()
     .min(3, "Be at least 3 characters long")
@@ -26,5 +26,5 @@ export const SignUpFormSchema = LoginFormSchema.extend({
     .trim(),
 });
 
-export type LoginFormData = z.TypeOf<typeof LoginFormSchema>;
-export type SignUpFormData = z.TypeOf<typeof SignUpFormSchema>;
+export type LoginFormData = z.TypeOf<typeof loginSchema>;
+export type SignUpFormData = z.TypeOf<typeof signupSchema>;

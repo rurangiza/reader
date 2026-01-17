@@ -26,8 +26,8 @@ import * as z from "zod";
 
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginFormData, LoginFormSchema } from "@/formSchemas/auth";
-import { $api } from "@/api/client";
+import { LoginFormData, loginSchema } from "@/features/auth/auth.schemas";
+import { $api } from "@/features/api/client";
 import { useRouter } from "next/navigation";
 
 export function LoginForm({
@@ -37,7 +37,7 @@ export function LoginForm({
   const router = useRouter();
 
   const form = useForm<LoginFormData>({
-    resolver: zodResolver(LoginFormSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       emailAddress: "",
       password: "",
@@ -50,7 +50,7 @@ export function LoginForm({
     },
     onSuccess: () => {
       // assumes the auth token was added in headers
-      router.push("/me");
+      router.push("/");
     },
   });
 
