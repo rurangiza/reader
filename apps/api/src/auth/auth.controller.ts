@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
+import { ApiLogout } from './decorator/api-logout.decorator';
 import { ApiSignIn } from './decorator/api-sign-in.decorator';
 import { ApiSignUp } from './decorator/api-sign-up.decorator';
 import { Public } from './decorator/public.decorator';
@@ -21,6 +22,15 @@ import { SignUpDto } from './dto/sign-up.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @ApiLogout()
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  logout(@Res({ passthrough: true }) response: Response): void {
+    response.clearCookie('AUTH_TOKEN', {
+      path: '/',
+    });
+  }
 
   @ApiSignIn()
   @HttpCode(HttpStatus.OK)
@@ -43,7 +53,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('signup')
   @Public()
-  signUp(@Body() signInDto: SignUpDto): Promise<SignUpResponseDto> {
+  async signUp(@Body() signInDto: SignUpDto): Promise<SignUpResponseDto> {
     return this.authService.signUp({ ...signInDto });
   }
 }
