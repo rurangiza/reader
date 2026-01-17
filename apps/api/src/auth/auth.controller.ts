@@ -1,38 +1,62 @@
+import type { Response } from 'express';
+
 import {
   Body,
   Controller,
   HttpCode,
   HttpStatus,
   Post,
-  Request,
+  Res,
 } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
+import { ApiLogout } from './decorator/api-logout.decorator';
 import { ApiSignIn } from './decorator/api-sign-in.decorator';
 import { ApiSignUp } from './decorator/api-sign-up.decorator';
 import { Public } from './decorator/public.decorator';
-import { SignInResponseDto } from './dto/sign-in-response.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpResponseDto } from './dto/sign-up-response.dto';
 import { SignUpDto } from './dto/sign-up.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private configService: ConfigService,
+  ) {}
+
+  @ApiLogout()
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  logout(@Res({ passthrough: true }) response: Response): void {
+    response.clearCookie('AUTH_TOKEN', {
+      path: '/',
+    });
+  }
 
   @ApiSignIn()
   @HttpCode(HttpStatus.OK)
-  @Post('sign-in')
+  @Post('signin')
   @Public()
-  signIn(@Body() signInDto: SignInDto): Promise<SignInResponseDto> {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+  async signIn(
+    @Body() signInDto: SignInDto,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<void> {
+    const { access_token } = await this.authService.signIn({ ...signInDto });
+    response.cookie('AUTH_TOKEN', access_token, {
+      httpOnly: true,
+      path: '/',
+      sameSite: 'lax',
+      secure: this.configService.get('NODE_ENV') === 'production',
+    });
   }
 
   @ApiSignUp()
   @HttpCode(HttpStatus.OK)
-  @Post('sign-up')
+  @Post('signup')
   @Public()
-  signUp(@Body() signInDto: SignUpDto): Promise<SignUpResponseDto> {
-    return this.authService.signUp(signInDto.username, signInDto.password);
+  async signUp(@Body() signInDto: SignUpDto): Promise<SignUpResponseDto> {
+    return this.authService.signUp({ ...signInDto });
   }
 }

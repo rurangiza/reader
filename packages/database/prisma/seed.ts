@@ -11,17 +11,34 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter });
 async function main() {
-  async function createUser(name: string, pass: string) {
+  async function createUser({
+    name,
+    pass,
+    emailAddress,
+  }: {
+    name: string;
+    pass: string;
+    emailAddress: string;
+  }) {
     return await prisma.user.create({
       data: {
-        username: name,
-        password: await bcrypt.hash(pass, SALTORROUND),
+        name,
+        passwordHash: await bcrypt.hash(pass, SALTORROUND),
+        emailAddress,
       },
     });
   }
 
-  const john = await createUser("john", "johndoe");
-  const jane = await createUser("jane", "janedoe");
+  const john = await createUser({
+    name: "john",
+    pass: "1234abcd@ABCD",
+    emailAddress: "john@gmail.com",
+  });
+  const jane = await createUser({
+    name: "jane",
+    pass: "1234abcd@ABCD",
+    emailAddress: "jane@gmail.com",
+  });
 
   const cleanCode = await prisma.book.create({
     data: {

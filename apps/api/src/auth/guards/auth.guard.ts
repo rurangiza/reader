@@ -6,9 +6,10 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
 
 import { IS_PUBLIC_KEY } from '../decorator/public.decorator';
+import { JwtClaims } from '../types/jwt';
+import { AuthenticatedRequest } from '../types/authenticated-request';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -26,24 +27,22 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest<Request>();
-    const token = this.extractTokenFromHeader(request);
-    if (!token) {
+    const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
+    const cookies = request.cookies;
+    if (!cookies || typeof cookies !== 'object') {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    const authToken = (cookies as Record<string, unknown>).AUTH_TOKEN;
+    if (typeof authToken !== 'string' || !authToken.length) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     try {
-      const payload: Record<string, unknown> =
-        await this.jwtService.verifyAsync(token);
+      const payload: JwtClaims = await this.jwtService.verifyAsync(authToken);
       request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
     }
     return true;
-  }
-
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
   }
 }
