@@ -1,8 +1,8 @@
-import { getAuthenticatedUser } from "@/lib/auth";
+import { getCurrentUser } from "@/data/auth";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const user = await getAuthenticatedUser();
+  const user = await getCurrentUser();
   if (!user) redirect("/login");
   return (
     <div>

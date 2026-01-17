@@ -27,27 +27,19 @@ export class AuthGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest<Request>();
-    const token = this.extractTokenFromRequest(request);
-    if (!token) {
+    const authToken =
+      (request.cookies as { AUTH_TOKEN: string })?.AUTH_TOKEN ?? undefined;
+    if (!authToken || typeof authToken !== 'string') {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     try {
       const payload: Record<string, unknown> =
-        await this.jwtService.verifyAsync(token);
+        await this.jwtService.verifyAsync(authToken);
       request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
     }
     return true;
-  }
-
-  private extractTokenFromRequest(request: Request): string | undefined {
-    const cookieToken = (request.cookies as unknown as { token?: unknown })
-      ?.token;
-    if (typeof cookieToken === 'string' && cookieToken.length) {
-      return cookieToken;
-    }
-    return undefined;
   }
 }

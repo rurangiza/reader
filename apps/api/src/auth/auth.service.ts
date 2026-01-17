@@ -7,10 +7,16 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
 
-import { SignUpResponseDto } from './dto/sign-up-response.dto';
-
 const DUMMY_BCRYPT_HASH =
   '$2b$12$j3xTyaBXjfmAFyd.cVdRT.XaPPnO2zlOW/Fe4N/Lm0lsgbksmNI3O';
+
+type SignInParams = Omit<SignUpParams, 'username'>;
+
+interface SignUpParams {
+  emailAddress: string;
+  password: string;
+  username: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -19,10 +25,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(
-    emailAddress: string,
-    password: string,
-  ): Promise<{ access_token: string }> {
+  async signIn({
+    emailAddress,
+    password,
+  }: SignInParams): Promise<{ access_token: string }> {
     const user = await this.usersService.findByEmailAddress(emailAddress);
 
     const hash = user?.passwordHash ?? DUMMY_BCRYPT_HASH;
@@ -41,11 +47,7 @@ export class AuthService {
     };
   }
 
-  async signUp(
-    username: string,
-    emailAddress: string,
-    password: string,
-  ): Promise<SignUpResponseDto> {
+  async signUp({ emailAddress, password, username }: SignUpParams) {
     const existingUser =
       await this.usersService.findByEmailAddress(emailAddress);
     if (existingUser) {

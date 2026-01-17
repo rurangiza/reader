@@ -30,15 +30,12 @@ export class AuthController {
     @Body() signInDto: SignInDto,
     @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
-    const { access_token } = await this.authService.signIn(
-      signInDto.emailAddress,
-      signInDto.password,
-    );
-    response.cookie('token', access_token, {
+    const { access_token } = await this.authService.signIn({ ...signInDto });
+    response.cookie('AUTH_TOKEN', access_token, {
       httpOnly: true,
       path: '/',
       sameSite: 'lax',
-      // secure: true, TODO: add this
+      secure: false, // TODO: change this for prod
     });
   }
 
@@ -47,10 +44,6 @@ export class AuthController {
   @Post('signup')
   @Public()
   signUp(@Body() signInDto: SignUpDto): Promise<SignUpResponseDto> {
-    return this.authService.signUp(
-      signInDto.username,
-      signInDto.emailAddress,
-      signInDto.password,
-    );
+    return this.authService.signUp({ ...signInDto });
   }
 }

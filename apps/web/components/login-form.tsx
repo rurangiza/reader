@@ -49,7 +49,7 @@ export function LoginForm({
       toast.error("There was an error while login", {});
     },
     onSuccess: () => {
-      // assumes the token was added in headers
+      // assumes the auth token was added in headers
       router.push("/me");
     },
   });

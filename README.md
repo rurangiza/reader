@@ -42,6 +42,7 @@ CI
 > Outcome: I can quickly make changes and feel confident nothing will break.
 
 CD
+- [ ] address all the TODO's in the code
 - [ ] setup and run test and prod database (ex: aws db.t3.micro)
 - [ ] deploy backend + connect to db
 - [ ] deploy frontend

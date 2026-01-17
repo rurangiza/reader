@@ -1,9 +1,9 @@
 import { LoginForm } from "@/components/login-form";
-import { getAuthenticatedUser } from "@/lib/auth";
+import { getCurrentUser } from "@/data/auth";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const user = await getAuthenticatedUser();
+  const user = await getCurrentUser();
   if (user) redirect("/me");
 
   return (

@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 
-import { getAuthenticatedUser } from "@/lib/auth";
+import { getCurrentUser } from "@/data/auth";
 import { ProfilePageClient } from "./ProfilePageClient";
 
 export default async function ProfilePage() {
-  const user = await getAuthenticatedUser();
+  const user = await getCurrentUser();
   if (!user) redirect("/login");
 
   return <ProfilePageClient />;
