@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export function EditableTableCell({ initialValue }: { initialValue: string }) {
   const [value, setValue] = useState(initialValue);
-  const [isEditable, setIsEditable] = useState(false);
+  const isEditable = false;
 
   useEffect(() => {
     setValue(initialValue);

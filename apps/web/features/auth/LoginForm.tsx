@@ -120,6 +120,33 @@ export function LoginForm({
               </Field>
             </FieldGroup>
           </form>
+          {/* // TODO: remove btn below, only for testing */}
+          <Field className="mt-6">
+            <Button
+              onClick={() =>
+                onSubmit({
+                  emailAddress: "john@gmail.com",
+                  password: "1234abcd@ABCD",
+                })
+              }
+              variant={"secondary"}
+            >
+              Login as John Doe
+            </Button>
+          </Field>
+          <Field className="mt-4">
+            <Button
+              onClick={() =>
+                onSubmit({
+                  emailAddress: "jane@gmail.com",
+                  password: "1234abcd@ABCD",
+                })
+              }
+              variant={"secondary"}
+            >
+              Login as Jane Doe
+            </Button>
+          </Field>
         </CardContent>
       </Card>
     </div>

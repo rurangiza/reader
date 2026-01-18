@@ -1,9 +1,9 @@
 import js from "@eslint/js";
-import eslintConfigPrettier from "eslint-config-prettier";
 import perfectionist from "eslint-plugin-perfectionist";
 import turboPlugin from "eslint-plugin-turbo";
 import unusedImports from "eslint-plugin-unused-imports";
 import tseslint from "typescript-eslint";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 const tsFiles = ["**/*.{ts,tsx,mts,cts}"];
 
@@ -14,7 +14,6 @@ const tsFiles = ["**/*.{ts,tsx,mts,cts}"];
  * */
 export const config = [
   js.configs.recommended,
-  eslintConfigPrettier,
   ...tseslint.configs.recommended.map((config) => ({
     ...config,
     files: tsFiles,
@@ -67,10 +66,9 @@ export const config = [
       "@typescript-eslint/no-misused-promises": "off",
       "@typescript-eslint/no-floating-promises": "warn",
       "@typescript-eslint/no-unsafe-argument": "warn",
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-      ],
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  eslintConfigPrettier,
 ];
