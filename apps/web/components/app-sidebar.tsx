@@ -7,7 +7,6 @@ import {
   SidebarGroup,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@repo/ui/components/sidebar";
 import { LibraryBig, Upload } from "lucide-react";
 import Link from "next/link";
@@ -50,7 +49,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <NavUser />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   );
 }

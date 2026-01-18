@@ -23,12 +23,12 @@ Scaffold
     - [x] add calls
     - [x] add logout [current browser session]
 - [ ] book management view
-  - [ ] add ui
-  - [ ] call api to list books
-  - [ ] book upload
-  - [ ] book deletion
+  - [x] add ui
+  - [x] call api to list books
+  - [x] book upload
+  - [x] book deletion
   - [ ] book update
-  - [ ] ensure each route requires login
+  - [x] ensure each route requires login
 - [ ] create UI to read books, chapter by chapter
 - [ ] connect frontend to api (ky + react query + openapi)
 - [ ] improve error handling and [logging](https://betterstack.com/community/guides/logging/)

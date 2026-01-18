@@ -15,13 +15,6 @@ import { EditableTableCell } from "@/components/EditableTableCell";
 
 import { BookDTO } from "./book.types";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-// TODO: findout how to use zod here
-// export type Book = {
-//   title: string;
-// };
-
 type BookColumnsOptions = {
   onDelete?: (bookId: string) => void;
 };
@@ -32,6 +25,7 @@ export const getColumns = (
   {
     accessorKey: "title",
     cell: ({ row }) => (
+      // TODO: use this to allow renaming books inline
       <EditableTableCell initialValue={row.getValue("title")} />
     ),
     header: () => <div className="text-left">Title</div>,
