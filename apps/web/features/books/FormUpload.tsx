@@ -21,6 +21,7 @@ import { Input } from "@repo/ui/components/input";
 import { toast } from "@repo/ui/components/sonner";
 import { Spinner } from "@repo/ui/components/spinner";
 import { useQueryClient } from "@tanstack/react-query";
+import { Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -66,8 +67,6 @@ export function FormUpload() {
   );
 
   function onSubmit(book: BookUploadFormData) {
-    // console.log({ SUBMITTING: JSON.stringify(data) });
-    // console.log({ CHAPTERS: data.chapters.map((c) => JSON.stringify(c)) });
     uploadBook({
       body: { ...book },
     });
@@ -84,14 +83,23 @@ export function FormUpload() {
   return (
     <div className="grid grid-cols-2 gap-8 h-dvh">
       <div>
-        <CardHeader className="px-0 mb-6">
-          <CardTitle>Upload your book</CardTitle>
-          <CardDescription>
-            Enter the title, the author and the add chapters below.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="px-0">
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="grid grid-cols-4">
+            <CardHeader className="px-0 mb-6 col-span-3">
+              <CardTitle>Upload your book</CardTitle>
+              <CardDescription>
+                Enter the title, the author and the add chapters below.
+              </CardDescription>
+            </CardHeader>
+            <Field className="w-fit justify-self-end">
+              <Button disabled={!form.formState.isValid} type="submit">
+                {isUploading && <Spinner />}
+                <Upload />
+                Upload
+              </Button>
+            </Field>
+          </div>
+          <CardContent className="px-0">
             <FieldGroup className="mb-4">
               <Controller
                 control={form.control}
@@ -114,10 +122,10 @@ export function FormUpload() {
                 )}
               />
             </FieldGroup>
-            <FieldGroup className="gap-2 mb-8">
+            <FieldGroup className="gap-2 mb-8 mt-8">
               <FieldLabel className="mb-0 pb-0">Chapters</FieldLabel>
               <FieldDescription className="pt-0 mt-0">
-                Add at least one chapters to your book
+                Add at least one chapter to your book
               </FieldDescription>
               <FieldError
                 errors={
@@ -153,14 +161,8 @@ export function FormUpload() {
                 ))}
               </ul>
             </FieldGroup>
-            <Field className="w-fit">
-              <Button disabled={!form.formState.isValid} type="submit">
-                {isUploading && <Spinner />}
-                Upload
-              </Button>
-            </Field>
-          </form>
-        </CardContent>
+          </CardContent>
+        </form>
       </div>
       <div>
         <ChapterForm onSubmit={addChapter}></ChapterForm>
