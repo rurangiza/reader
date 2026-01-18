@@ -39,8 +39,13 @@ export function ChapterForm({ onSubmit }: ChapterFormProps) {
         <CardTitle>Add a chapter</CardTitle>
         <CardDescription>Copy paste your chapter here</CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+      <CardContent className="mt-4">
+        <form
+          onSubmit={form.handleSubmit((e) => {
+            form.reset();
+            onSubmit(e);
+          })}
+        >
           <FieldGroup>
             <Controller
               control={form.control}

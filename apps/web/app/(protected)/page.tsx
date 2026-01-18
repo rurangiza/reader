@@ -12,7 +12,7 @@ export default function HomePage() {
       <CardHeader className="px-0">
         <CardTitle>Pick and read</CardTitle>
         <CardDescription>
-          Enter the title, the author and the add chapters below.
+          From your latest uploads.
         </CardDescription>
       </CardHeader>
       <Library />
