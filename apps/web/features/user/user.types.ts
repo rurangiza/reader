@@ -1,3 +1,3 @@
 import { components } from "@api/types/api";
 
-export type User = components["schemas"]["CurrentUserResponseDto"];
+export type UserDTO = components["schemas"]["CurrentUserResponseDto"];

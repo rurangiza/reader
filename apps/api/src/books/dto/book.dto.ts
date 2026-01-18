@@ -28,15 +28,6 @@ export class BookDto {
   id!: string;
 
   @ApiProperty({
-    example:
-      'The War of Art argues that creative success depends on recognizing and relentlessly overcoming “Resistance”—the internal force of fear, procrastination, and self-doubt that prevents meaningful work.',
-    type: String,
-  })
-  @IsNotEmpty()
-  @IsString()
-  summary!: string;
-
-  @ApiProperty({
     example: 'The War of Art',
     type: String,
   })

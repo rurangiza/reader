@@ -41,8 +41,8 @@ export class BooksController {
   @ApiFindAllBooks()
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(): Promise<BookResponseDto[]> {
-    return this.booksService.findAll();
+  async findAll(@User() user: AuthenticatedUser): Promise<BookResponseDto[]> {
+    return this.booksService.findAll({ userId: user.id });
   }
 
   @ApiFindOneBook()

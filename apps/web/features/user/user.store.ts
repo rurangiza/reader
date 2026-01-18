@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
-import type { User } from "@/features/user/user.types";
+import type { UserDTO } from "@/features/user/user.types";
 
 interface CurrentUserState {
   resetUser: () => void;
-  setUser: (newUser: null | User) => void;
-  user: null | User;
+  setUser: (newUser: null | UserDTO) => void;
+  user: null | UserDTO;
 }
 
 const useCurrentUserStore = create<CurrentUserState>((set) => ({
