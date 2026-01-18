@@ -3,13 +3,13 @@ import ky from "ky";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
-import { User } from "../user/user.types";
+import { UserDTO } from "../user/user.types";
 
 function getApiBaseUrl() {
   return process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
 }
 
-export const getCurrentUser = cache(async (): Promise<null | User> => {
+export const getCurrentUser = cache(async (): Promise<null | UserDTO> => {
   const cookieHeader = await cookies();
   const authToken = cookieHeader.get("AUTH_TOKEN")?.value;
   if (!authToken) return null;
@@ -22,7 +22,7 @@ export const getCurrentUser = cache(async (): Promise<null | User> => {
           cookie: cookieHeader.toString() ?? "",
         },
       })
-      .json<User>();
+      .json<UserDTO>();
     return {
       emailAddress: user.emailAddress,
       id: user.id,

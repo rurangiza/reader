@@ -124,8 +124,6 @@ export interface components {
         /** @description DTO used for creating a new book. */
         CreateBookDto: {
             chapters: components["schemas"]["ChapterDto"][];
-            /** @example The War of Art argues that creative success depends on recognizing and relentlessly overcoming “Resistance”—the internal force of fear, procrastination, and self-doubt that prevents meaningful work. */
-            summary: string;
             /** @example The War of Art */
             title: string;
         };
@@ -133,8 +131,6 @@ export interface components {
         BookResponseDto: {
             /** @example 6e426018-4251-4c2c-85db-23e8f9af19ae */
             id: string;
-            /** @example The War of Art argues that creative success depends on recognizing and relentlessly overcoming “Resistance”—the internal force of fear, procrastination, and self-doubt that prevents meaningful work. */
-            summary: string;
             /** @example The War of Art */
             title: string;
         };
@@ -163,6 +159,11 @@ export interface components {
         };
         CurrentUserResponseDto: {
             /**
+             * @description Email address of the user
+             * @example john@gmail.com
+             */
+            emailAddress: string;
+            /**
              * @description ID of the user
              * @example 2691fc73-e784-4e4c-a266-231f5992bfce
              */
@@ -172,11 +173,6 @@ export interface components {
              * @example john doe
              */
             name: string;
-            /**
-             * @description Email address of the user
-             * @example john@gmail.com
-             */
-            emailAddress: string;
         };
     };
     responses: never;

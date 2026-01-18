@@ -9,9 +9,10 @@
     "format": "prisma format",
     "seed": "prisma db seed",
     "reset": "prisma migrate reset",
-    "init": "prisma migrate dev --name init",
+    "db:init": "prisma migrate dev --name init",
     "ui": "prisma studio",
-    "build": "tsc"
+    "build": "tsc",
+    "generate:build": "prisma generate && tsc"
   },
   "keywords": [],
   "author": "",

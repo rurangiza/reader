@@ -1,15 +1,15 @@
 "use client";
 
-import { SidebarInset, SidebarTrigger } from "@repo/ui/components/sidebar";
+import { SidebarInset } from "@repo/ui/components/sidebar";
 import { useEffect, useState } from "react";
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { useCurrentUser } from "@/features/user/user.store";
-import { User } from "@/features/user/user.types";
+import { UserDTO } from "@/features/user/user.types";
 
 interface HomeViewProps {
   children: React.ReactNode;
-  user: User;
+  user: UserDTO;
 }
 
 export function HomeView({ children, user }: HomeViewProps) {
@@ -26,12 +26,10 @@ export function HomeView({ children, user }: HomeViewProps) {
     <>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-          </div>
-        </header>
-        {children}
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12"></header>
+        <div className="flex flex-1 flex-col gap-4 px-10 h-full">
+          {children}
+        </div>
       </SidebarInset>
     </>
   );

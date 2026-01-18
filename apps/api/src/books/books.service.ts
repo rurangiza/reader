@@ -7,27 +7,39 @@ export class BooksService {
   constructor(private readonly database: DatabaseService) {}
 
   async create(
-    book: { chapters: object[]; summary: string; title: string },
+    book: {
+      chapters: { content: string; number: number; title: string }[];
+      title: string;
+    },
     userId: string,
   ) {
-    // TODO: save the chapters
-    return await this.database.book.create({
-      data: {
-        // TODO: generate the summary
-        summary: book.summary,
-        title: book.title,
-        userId,
-      },
-      select: {
-        id: true,
-        summary: true,
-        title: true,
-      },
+    return await this.database.$transaction(async (tx) => {
+      const chapters = await tx.chapter.createManyAndReturn({
+        data: book.chapters,
+      });
+      return await tx.book.create({
+        data: {
+          chapters: {
+            connect: chapters,
+          },
+          title: book.title,
+          userId,
+        },
+        select: {
+          id: true,
+          title: true,
+        },
+      });
     });
   }
 
-  async findAll() {
-    return await this.database.book.findMany();
+  async findAll({ userId }: { userId: string }) {
+    return await this.database.book.findMany({
+      orderBy: { createdAt: 'desc' },
+      where: {
+        userId,
+      },
+    });
   }
 
   async findOne(id: UUID) {
