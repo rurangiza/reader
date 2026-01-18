@@ -8,8 +8,10 @@ import { getColumns } from "./columns";
 import { DataTable } from "./data-table";
 
 export function Library() {
-  const { data: books, isLoading } = $api.useQuery("get", "/books", {});
   const queryClient = useQueryClient();
+
+  const { data: books, isLoading } = $api.useQuery("get", "/books", {});
+
   const { mutate: deleteBook } = $api.useMutation("delete", "/books/{bookId}", {
     onError: () => {
       toast.error("Failed to delete the book");

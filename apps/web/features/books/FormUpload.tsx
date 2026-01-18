@@ -46,7 +46,7 @@ export function FormUpload() {
     control: form.control,
     name: "chapters",
   });
-  const [chapterCount, setChapterCount] = useState(0);
+  const [chapterCount, setChapterCount] = useState(1);
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -87,9 +87,7 @@ export function FormUpload() {
           <div className="grid grid-cols-4">
             <CardHeader className="px-0 mb-6 col-span-3">
               <CardTitle>Upload your book</CardTitle>
-              <CardDescription>
-                Enter the title, the author and the add chapters below.
-              </CardDescription>
+              <CardDescription>Enter a title and add chapters.</CardDescription>
             </CardHeader>
             <Field className="w-fit justify-self-end">
               <Button disabled={!form.formState.isValid} type="submit">
@@ -142,24 +140,22 @@ export function FormUpload() {
                     : undefined
                 }
               />
-              <ul>
-                {fields.map((item, index) => (
-                  <li key={item.id}>
-                    <Card className="flex-row items-center px-4 py-4 mb-4">
-                      <Badge className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums">
-                        {item.number}
-                      </Badge>
-                      <CardHeader className="w-full px-0 mb-0 gap-0">
-                        <CardTitle
-                          {...form.register(`chapters.${index}.title`)}
-                        >
-                          {item.title}
-                        </CardTitle>
-                      </CardHeader>
-                    </Card>
-                  </li>
-                ))}
-              </ul>
+              {fields.map((item, index) => (
+                <Card
+                  className="flex-row items-center px-4 py-4 mb-4"
+                  key={item.id}
+                  onClick={() => {}}
+                >
+                  <Badge className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums">
+                    {item.number}
+                  </Badge>
+                  <CardHeader className="w-full px-0 mb-0 gap-0">
+                    <CardTitle {...form.register(`chapters.${index}.title`)}>
+                      {item.title}
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+              ))}
             </FieldGroup>
           </CardContent>
         </form>
