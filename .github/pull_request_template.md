@@ -1,6 +1,6 @@
-### Related issue #
+### Resolves #
 
-### Approach
+### Solution
 <!-- High-level description of the solution. Focus on structure and decisions, not line-by-line changes. -->
 
 
@@ -16,7 +16,7 @@
 -->
 - 
 
-### How to test
+### Testing
 <!-- What was tested and how?
 Manual steps, automated tests, edge cases. -->
 - [ ] Automated tests (unit, integration, e2e)
