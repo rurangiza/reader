@@ -9,7 +9,7 @@
       "env": ["PORT", "ALLOWED_ORIGINS"]
     },
     "lint": {
-      "dependsOn": ["^lint"],
+      "dependsOn": ["^lint", "^build"],
       "env": ["PORT", "ALLOWED_ORIGINS"]
     },
     "dev": {
