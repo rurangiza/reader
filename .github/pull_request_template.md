@@ -1,6 +1,6 @@
 ## Why
-<!-- What problem does this PR solve? Why is it worth changing the system? -->
-<!-- Link issue, ticket, or brief context. -->
+This PR addresses this issue: (#issue).
+We need this change because ...
 
 ## What
 <!-- High-level description of the solution.
