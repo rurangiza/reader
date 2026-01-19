@@ -1,15 +1,36 @@
 {
+  // Pick the nearest directory that looks like an ESLint project
   "eslint.workingDirectories": [
     {
       "mode": "auto"
     }
   ],
+  
+  // Disable the default formatter, use eslint instead
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+
+  // Auto fix
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
   },
+
+  // Enable eslint languages I use
   "eslint.validate": [
+    "javascript",
+    "javascriptreact",
     "typescript",
-    "typescriptreact"
+    "typescriptreact",
+    "markdown",
+    "yaml",
+    "json",
+    "jsonc",
+    "html",
+    "css",
+    "less",
+    "scss",
+    "pcss",
+    "postcss"
   ]
 }
