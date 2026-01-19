@@ -33,7 +33,10 @@
       ]
     },
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": [
+        "^check-types",
+        "^build"
+      ]
     },
     "lint:fix": {
       "dependsOn": [
