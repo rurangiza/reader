@@ -1,35 +1,44 @@
-name: CI
+name: ci
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   lint:
-    name: Lint changed packages
+    name: lint
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v3
         with:
           version: 9
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
+      - run: pnpm install
+      - run: pnpm turbo run lint --filter=...[origin/main]
 
-      - name: Install dependencies
-        run: pnpm install
+  checktypes:
+    name: check_types
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
 
-      - name: Lint changed workspaces
-        run: pnpm turbo run lint --filter=...[origin/main]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install
+      - run: pnpm turbo run check-types --filter=...[origin/main]

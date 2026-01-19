@@ -19,5 +19,5 @@ export class SignUpResponseDto {
   })
   @IsNotEmpty()
   @IsString()
-  userId: string;
+  userId!: string;
 }
