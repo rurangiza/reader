@@ -1,37 +1,27 @@
-## Why
-This PR addresses this issue: (#issue).
-We need this change because ...
+### Related issue #
 
-## What
-<!-- High-level description of the solution.
-Focus on structure and decisions, not line-by-line changes. -->
+### Approach
+<!-- High-level description of the solution. Focus on structure and decisions, not line-by-line changes. -->
 
-## Scope & Boundaries
-<!-- What is intentionally NOT included? -->
-<!-- Any follow-ups explicitly deferred? -->
 
-## Key Decisions
-<!-- Non-obvious design or implementation choices.
-Why this approach vs alternatives? -->
+### Scope, Boundaries & Trade-Offs
+<!-- What is intentionally NOT included? Any follow-ups explicitly deferred? -->
+<!-- Example:
+- Backend-only change (API + service layer)
+- No DB schema changes
+- No UI or client updates
+- Error handling added, but no retries or observability yet
+- Authorization logic unchanged (existing guards reused)
+- Chose sync flow for simplicity over throughput
+-->
+- 
 
-## Risks & Trade-offs
-<!-- What could break, regress, or surprise us?
-Performance, security, edge cases, migration risks, etc. -->
-
-## Production Readiness Checklist
-- [ ] Error handling and failure modes considered
-- [ ] Logging / observability added where needed
-- [ ] Config / secrets handled correctly
-- [ ] Backward compatibility or migration plan (if applicable)
-- [ ] Performance implications considered
-- [ ] Security implications considered
-
-## How to Review
-<!-- Where should reviewers focus?
-Files, commits, or concepts that matter most. -->
-
-## Testing
+### How to test
 <!-- What was tested and how?
 Manual steps, automated tests, edge cases. -->
+- [ ] Automated tests (unit, integration, e2e)
+- [ ] Manual steps. Described below.
+- [ ] Trust me bro!
 
-## Screenshots / Demos (if applicable)
+
+### Screenshots / Demos (if applicable)
