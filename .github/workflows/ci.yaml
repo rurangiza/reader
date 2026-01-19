@@ -1,4 +1,4 @@
-name: CI
+name: ci
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   lint:
-    name: Lint changed packages
+    name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -24,13 +24,15 @@ jobs:
       - run: pnpm install
       - run: pnpm turbo run lint --filter=...[origin/main]
 
-  typecheck:
-    name: Type check
+  checktypes:
+    name: Check types
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
       - uses: pnpm/action-setup@v3
         with:
           version: 9
