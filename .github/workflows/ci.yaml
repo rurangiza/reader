@@ -39,4 +39,4 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install
-      - run: pnpm turbo run check-types
+      - run: pnpm turbo run check-types --filter=...[origin/main]
