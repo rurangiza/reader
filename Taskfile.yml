@@ -27,4 +27,4 @@ tasks:
   act:pr:
     # simulate a PR to test Github workflows
     cmds:
-      - act pull_request
+      - act pull_request --container-architecture linux/amd64

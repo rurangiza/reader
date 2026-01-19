@@ -32,6 +32,9 @@
         "ALLOWED_ORIGINS"
       ]
     },
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    },
     "lint:fix": {
       "dependsOn": [
         "^lint:fix",
