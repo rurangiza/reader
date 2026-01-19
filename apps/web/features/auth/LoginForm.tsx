@@ -26,6 +26,20 @@ import { Controller, useForm } from "react-hook-form";
 import { $api } from "@/features/api/client";
 import { LoginFormData, loginSchema } from "@/features/auth/auth.schemas";
 
+// Local users created from seed script
+const DUMMY_USERS = [
+  {
+    email: "jane@gmail.com",
+    fullName: "Jane Doe",
+    pass: "1234abcd@ABCD"
+  },
+  {
+    email: "john@gmail.com",
+    fullName: "John Doe",
+    pass: "1234abcd@ABCD"
+  }
+]
+
 export function LoginForm({
   className,
   ...props
@@ -120,33 +134,26 @@ export function LoginForm({
               </Field>
             </FieldGroup>
           </form>
-          {/* // TODO: remove btn below, only for testing */}
-          <Field className="mt-6">
-            <Button
-              onClick={() =>
-                onSubmit({
-                  emailAddress: "john@gmail.com",
-                  password: "1234abcd@ABCD",
-                })
-              }
-              variant={"secondary"}
-            >
-              Login as John Doe
-            </Button>
-          </Field>
-          <Field className="mt-4">
-            <Button
-              onClick={() =>
-                onSubmit({
-                  emailAddress: "jane@gmail.com",
-                  password: "1234abcd@ABCD",
-                })
-              }
-              variant={"secondary"}
-            >
-              Login as Jane Doe
-            </Button>
-          </Field>
+          {process.env.NEXT_PUBLIC_ENABLE_DEV_LOGIN === "true" && (
+            <>
+            {DUMMY_USERS.map((user) => (
+        <Field className="mt-6" key={user.email}>
+                <Button
+                  onClick={() =>
+                    onSubmit({
+                      emailAddress: user.email,
+                      password: user.pass,
+                    })
+                  }
+                  type="button"
+                  variant={"secondary"}
+                >
+                  Login as {user.fullName}
+                </Button>
+              </Field>
+            ))}
+            </>
+          )}
         </CardContent>
       </Card>
     </div>
