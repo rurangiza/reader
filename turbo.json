@@ -3,20 +3,55 @@
   "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "^db:generate"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"],
-      "env": ["PORT", "ALLOWED_ORIGINS"]
+      "dependsOn": [
+        "^build",
+        "^db:generate"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        "dist/**",
+        "generated/**",
+        ".next/**",
+        "!.next/cache/**"
+      ],
+      "env": [
+        "PORT",
+        "ALLOWED_ORIGINS"
+      ]
     },
     "lint": {
-      "dependsOn": ["^lint"],
-      "env": ["PORT", "ALLOWED_ORIGINS"]
+      "dependsOn": [
+        "^lint",
+        "^build"
+      ],
+      "env": [
+        "PORT",
+        "ALLOWED_ORIGINS"
+      ]
+    },
+    "lint:fix": {
+      "dependsOn": [
+        "^lint:fix",
+        "^build"
+      ],
+      "env": [
+        "PORT",
+        "ALLOWED_ORIGINS"
+      ]
     },
     "dev": {
-      "dependsOn": ["^db:generate"],
+      "dependsOn": [
+        "^db:generate"
+      ],
       "cache": false,
       "persistent": true,
-      "env": ["PORT", "ALLOWED_ORIGINS"]
+      "env": [
+        "PORT",
+        "ALLOWED_ORIGINS"
+      ]
     },
     "db:generate": {
       "cache": false

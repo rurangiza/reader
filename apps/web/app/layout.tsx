@@ -1,6 +1,7 @@
+import "@repo/ui/globals.css";
+
 import type { Metadata } from "next";
 
-import "@repo/ui/globals.css";
 import { Toaster } from "@repo/ui/components/sonner";
 import { Geist, Geist_Mono } from "next/font/google";
 

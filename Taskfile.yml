@@ -1,5 +1,3 @@
-# https://taskfile.dev
-
 version: '3'
 
 vars:
@@ -10,13 +8,17 @@ tasks:
     cmds:
       - echo "{{.GREETING}}"
     silent: true
-  up:
+  compose:up:
     cmds:
       - docker compose up -d
       - docker compose logs -f
-  down:
+  compose:down:
     cmds:
       - docker compose down
-  logs:
+  compose:logs:
     cmds:
       - docker compose logs -f
+  act:pr:
+    # simulate a PR to test Github workflows
+    cmds:
+      - act pull_request
