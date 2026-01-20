@@ -18,7 +18,7 @@ export class SignUpDto {
   })
   @IsEmail()
   @IsNotEmpty()
-  emailAddress!: string;
+  emailAddress: string;
 
   @ApiProperty({
     example: '9JrHmsFZK8J-a',
