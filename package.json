@@ -8,6 +8,7 @@
     "lint:fix": "turbo run lint:fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
+    "test:api": "turbo run test:api",
     "prepare": "husky"
   },
   "devDependencies": {

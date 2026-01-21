@@ -1,4 +1,5 @@
 import globals from "globals";
+
 import { config as baseConfig } from "./base.js";
 
 /**
@@ -17,11 +18,11 @@ export const nestJsConfig = [
         ...globals.node,
         ...globals.jest,
       },
-      sourceType: "commonjs",
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
+      sourceType: "commonjs",
     },
   },
 ];

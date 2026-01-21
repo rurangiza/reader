@@ -7,17 +7,18 @@ const SALTORROUND = 12;
 const MAX_PASS_LENGTH = 128;
 const MIN_PASS_LENGTH = 12;
 
+interface CreateUserParams {
+  emailAddress: string,
+  password: string,
+  username: string,
+}
+
 @Injectable()
 export class UsersService {
   constructor(private readonly database: DatabaseService) {}
 
-  async create(username: string, emailAddress: string, password: string) {
-    if (
-      !password ||
-      typeof password !== 'string' ||
-      password.length > MAX_PASS_LENGTH ||
-      password.length < MIN_PASS_LENGTH
-    ) {
+  async create({emailAddress, password, username: name}: CreateUserParams) {
+    if (!isStrongPassword(password)) {
       throw new BadRequestException('Invalid password');
     }
 
@@ -26,7 +27,7 @@ export class UsersService {
       data: {
         createdAt: new Date(),
         emailAddress,
-        name: username,
+        name,
         passwordHash,
       },
     });
@@ -55,4 +56,8 @@ export class UsersService {
       },
     });
   }
+}
+
+function isStrongPassword(pass: string) {
+  return (pass && typeof pass === 'string' && pass.length <= MAX_PASS_LENGTH && pass.length >= MIN_PASS_LENGTH)
 }
