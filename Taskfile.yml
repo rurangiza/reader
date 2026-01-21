@@ -1,30 +1,24 @@
 version: '3'
 
-vars:
-  GREETING: Hello, World!
-
 tasks:
   default:
     cmds:
-      - echo "{{.GREETING}}"
+      - task --list-all
     silent: true
-
   compose:up:
     cmds:
       - docker compose up -d
-      - docker compose logs -f
   compose:down:
     cmds:
       - docker compose down
   compose:logs:
     cmds:
-      - docker compose logs -f
+      - docker compose logs -f {{.CLI_ARGS}}
   
   uncommit:
     cmds:
       - git reset --soft HEAD~1
 
-  act:pr:
-    # simulate a PR to test Github workflows
+  workflow:pr:
     cmds:
-      - act pull_request --container-architecture linux/amd64
+      - act pull_request --container-architecture linux/amd64 {{.CLI_ARGS}}

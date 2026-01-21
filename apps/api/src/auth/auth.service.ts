@@ -54,11 +54,11 @@ export class AuthService {
       throw new BadRequestException(`Email already used`);
     }
 
-    const user = await this.usersService.create(
-      username,
+    const user = await this.usersService.create({
       emailAddress,
       password,
-    );
+      username,
+    });
     return {
       emailAddress: user.emailAddress,
       userId: user.id,
