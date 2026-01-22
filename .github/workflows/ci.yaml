@@ -53,8 +53,8 @@ jobs:
       - name: Run type checker
         run: pnpm turbo run check-types --filter=...[origin/main]
   
-  test:
-    name: test api
+  unit-tests:
+    name: unit-tests
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -74,5 +74,29 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install
-      - name: Run automated tests (API only)
-        run: pnpm turbo run test:api
+      - name: Run Unit Tests
+        run: pnpm test:unit
+
+  e2e-tests:
+    name: e2e-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup package manager (pnpm)
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run E2E Tests
+        run: pnpm test:e2e

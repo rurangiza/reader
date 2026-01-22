@@ -4,6 +4,7 @@
   "tasks": {
     "build": {
       "dependsOn": [
+        "db:generate",
         "^build",
         "^db:generate"
       ],
@@ -74,9 +75,24 @@
         "ALLOWED_ORIGINS"
       ]
     },
-    "test:api": {
+    "test:unit": {
       "dependsOn": [
-        "^test:api",
+        "^test:unit",
+        "^build",
+        "^db:generate"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "env": [
+        "PORT",
+        "ALLOWED_ORIGINS"
+      ]
+    },
+    "test:e2e": {
+      "dependsOn": [
+        "^test:e2e",
         "^build",
         "^db:generate"
       ],
