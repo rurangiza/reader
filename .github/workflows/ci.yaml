@@ -9,23 +9,16 @@ jobs:
     name: lint
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    timeout-minutes: 5
 
     steps:
-      - name: Checkout repository (full history)
-        uses: actions/checkout@v4
       - name: Checkout repository (full history)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup package manager (pnpm)
         uses: pnpm/action-setup@v3
-      - name: Setup package manager (pnpm)
-        uses: pnpm/action-setup@v3
         with:
           version: 9
-      - name: Setup Node
-        uses: actions/setup-node@v4
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -33,31 +26,23 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install
-      - name: Install dependencies
-        run: pnpm install
-      - run: pnpm turbo run lint --filter=...[origin/main]
+      - name: Run linter
+        run: pnpm turbo run lint --filter=...[origin/main]
 
   checktypes:
     name: check_types
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    timeout-minutes: 5
 
     steps:
-      - name: Checkout repository (full history)
-        uses: actions/checkout@v4
       - name: Checkout repository (full history)
         uses: actions/checkout@v4
         with:
             fetch-depth: 0
       - name: Setup package manager (pnpm)
         uses: pnpm/action-setup@v3
-      - name: Setup package manager (pnpm)
-        uses: pnpm/action-setup@v3
         with:
           version: 9
-      - name: Setup Node
-        uses: actions/setup-node@v4
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -65,7 +50,7 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install
-      - name: Run type checks
+      - name: Run type checker
         run: pnpm turbo run check-types --filter=...[origin/main]
   
   test:
