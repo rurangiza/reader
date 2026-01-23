@@ -1,7 +1,7 @@
 ---
-name: Story
+name: Feature Request
 about: Template for creating a scrum story.
-title: "[FEAT] Add a title"
+title: "[FEAT] "
 labels: enhancement
 assignees: rurangiza
 

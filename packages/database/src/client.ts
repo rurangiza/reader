@@ -1,5 +1,6 @@
-import { PrismaClient } from "../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+
+import { PrismaClient } from "../generated/prisma/client";
 
 export enum AdaperType {
   Postgres,
@@ -18,7 +19,7 @@ export class DatabaseClient extends PrismaClient {
         return new PrismaPg({ connectionString });
       default:
         throw new Error(
-          `Invdalid Database adapter type. Expected: ${Object.entries(AdaperType)}`
+          `Invalid Database adapter type. Expected: ${Object.keys(AdaperType).join(", ")}`
         );
     }
   }

@@ -30,8 +30,9 @@ import { AuthGuard } from './guards/auth.guard';
     {
       provide: APP_GUARD,
       scope: Scope.REQUEST,
-      useClass: AuthGuard,
+      useExisting: AuthGuard,
     },
+    AuthGuard
   ],
 })
 export class AuthModule {}
