@@ -80,7 +80,22 @@ jobs:
   e2e-tests:
     name: e2e-tests
     runs-on: ubuntu-latest
+    container: node:20-bookworm-slim
     timeout-minutes: 10
+
+    services:
+      reader_db:
+        image: postgres:alpine3.23
+        env:
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: postgres
+          POSTGRES_DB: reader_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
 
     steps:
       - name: Checkout repository (full history)
@@ -98,5 +113,18 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install
+      - name: Initialize the database
+        working-directory: ./packages/database
+        env:
+          DATABASE_URL: postgresql://postgres:password@reader_db
+        run: |
+          apt-get update -y && apt-get install -y openssl
+          pnpm db:init
+          pnpm db:generate
+          pnpm db:seed
       - name: Run E2E Tests
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+          DATABASE_URL: postgresql://postgres:password@reader_db
         run: pnpm test:e2e

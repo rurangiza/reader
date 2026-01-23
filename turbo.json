@@ -92,9 +92,9 @@
     },
     "test:e2e": {
       "dependsOn": [
-        "^test:e2e",
         "^build",
-        "^db:generate"
+        "^db:generate",
+        "^test:e2e"
       ],
       "inputs": [
         "$TURBO_DEFAULT$",
@@ -102,7 +102,8 @@
       ],
       "env": [
         "PORT",
-        "ALLOWED_ORIGINS"
+        "ALLOWED_ORIGINS",
+        "DATABASE_URL"
       ]
     },
     "db:generate": {
