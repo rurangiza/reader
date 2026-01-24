@@ -1,4 +1,4 @@
-import { Module, Scope } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
@@ -29,7 +29,6 @@ import { AuthGuard } from './guards/auth.guard';
     AuthService,
     {
       provide: APP_GUARD,
-      scope: Scope.REQUEST,
       useExisting: AuthGuard,
     },
     AuthGuard

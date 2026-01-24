@@ -4,6 +4,7 @@ import request from 'supertest';
 import { App } from 'supertest/types';
 
 import { AppModule } from '@/app.module';
+import { AuthGuard } from '@/auth/guards/auth.guard';
 import { JwtClaims } from '@/auth/types/jwt';
 
 const AUTHENTICATED_USER_ID = "45aabdcb-0bb5-47cf-b628-24fa39cb4380";
@@ -37,11 +38,9 @@ describe('UsersController (e2e)', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    }).overrideProvider(AuthGuard).useClass(MockAuthGuard).compile();
 
     app = moduleFixture.createNestApplication();
-
-    app.useGlobalGuards(new MockAuthGuard())
 
     app.useGlobalPipes(new ValidationPipe({whitelist: true}))
 
