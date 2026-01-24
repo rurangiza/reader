@@ -151,7 +151,23 @@ export interface components {
             /** @example The War of Art */
             title: string;
         };
-        ChapterResponseDto: Record<string, never>;
+        ChapterResponseDto: {
+            /**
+             * @description The content of the chapter
+             * @example Once upon a time, there was a yummy Tiramisu
+             */
+            content: string;
+            /**
+             * @description The chapter number
+             * @example 1
+             */
+            number: number;
+            /**
+             * @description The title of the chapter
+             * @example The joy of music
+             */
+            title: string;
+        };
         /** @description Login credentials */
         SignInDto: {
             /** @example jdoe@gmail.com */
