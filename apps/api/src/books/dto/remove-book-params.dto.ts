@@ -10,5 +10,5 @@ export class RemoveBookParamsDto {
     type: String,
   })
   @IsUUID()
-  bookId!: UUID;
+  id!: UUID;
 }

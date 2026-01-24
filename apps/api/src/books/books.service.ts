@@ -33,13 +33,33 @@ export class BooksService {
     });
   }
 
-  async findAll({ userId }: { userId: string }) {
+  async findAllForUser({ userId }: { userId: string }) {
     return await this.database.book.findMany({
       orderBy: { createdAt: 'desc' },
       where: {
         userId,
       },
     });
+  }
+
+  async findChapter(bookId: string, chapterNumber: number) {
+    try {
+      return await this.database.chapter.findFirstOrThrow({
+        select: {
+          content: true,
+          number: true,
+          title: true
+        },
+        where: {
+          bookId,
+          number: chapterNumber,
+        }
+      })
+    } catch {
+      throw new NotFoundException(
+        `Chapter ${chapterNumber} not found in book ${bookId}`,
+      );
+    }
   }
 
   async findOne(id: UUID) {

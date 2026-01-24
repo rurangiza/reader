@@ -1,4 +1,4 @@
-import { applyDecorators, HttpStatus } from '@nestjs/common';
+import { applyDecorators, HttpCode, HttpStatus } from '@nestjs/common';
 import {
   ApiNotFoundResponse,
   ApiOperation,
@@ -12,5 +12,6 @@ export function ApiFindOneBook() {
     ApiOperation({ summary: 'Get a book by its ID' }),
     ApiNotFoundResponse({ description: 'Book not found' }),
     ApiResponse({ status: HttpStatus.OK, type: BookResponseDto }),
+    HttpCode(HttpStatus.OK)
   );
 }

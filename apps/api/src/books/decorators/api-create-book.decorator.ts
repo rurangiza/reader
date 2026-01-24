@@ -1,4 +1,4 @@
-import { applyDecorators, HttpStatus } from '@nestjs/common';
+import { applyDecorators, HttpCode, HttpStatus } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiOperation,
@@ -12,5 +12,6 @@ export function ApiCreateBook() {
     ApiOperation({ summary: 'Create a new book' }),
     ApiBadRequestResponse({ description: 'Invalid input' }),
     ApiResponse({ status: HttpStatus.CREATED, type: BookResponseDto }),
+    HttpCode(HttpStatus.CREATED),
   );
 }
