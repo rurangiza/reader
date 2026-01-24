@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@repo/ui/components/sidebar";
-import { LibraryBig, Upload } from "lucide-react";
+import { Home, LibraryBig, Upload } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
@@ -16,6 +16,12 @@ import { NavUser } from "@/features/user/NavUser";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const menuItems = [
+    {
+      icon: Home,
+      isActive: false,
+      title: "Home",
+      url: "/",
+    },
     {
       icon: Upload,
       isActive: false,
@@ -25,7 +31,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     {
       icon: LibraryBig,
       title: "Library",
-      url: "/",
+      url: "/books",
     },
   ];
 

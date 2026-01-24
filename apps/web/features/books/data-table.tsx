@@ -14,13 +14,14 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Link from "next/link";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { id: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { id: string }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -28,6 +29,7 @@ export function DataTable<TData, TValue>({
     columns,
     data,
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (originalRow) => originalRow.id,
   });
 
   return (
@@ -61,7 +63,16 @@ export function DataTable<TData, TValue>({
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    <Link
+                      className="flex justify-between w-full"
+                      href={`/books/${row.original.id}/chapters/1`}
+                      key={`link-${row.id}`}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </Link>
                   </TableCell>
                 ))}
               </TableRow>
