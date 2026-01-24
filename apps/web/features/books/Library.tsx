@@ -12,7 +12,7 @@ export function Library() {
 
   const { data: books, isLoading } = $api.useQuery("get", "/books", {});
 
-  const { mutate: deleteBook } = $api.useMutation("delete", "/books/{bookId}", {
+  const { mutate: deleteBook } = $api.useMutation("delete", "/books/{id}", {
     onError: () => {
       toast.error("Failed to delete the book");
     },
@@ -26,7 +26,7 @@ export function Library() {
     deleteBook({
       params: {
         path: {
-          bookId,
+          id: bookId,
         },
       },
     });

@@ -14,14 +14,8 @@ export class BooksService {
     userId: string,
   ) {
     return await this.database.$transaction(async (tx) => {
-      const chapters = await tx.chapter.createManyAndReturn({
-        data: book.chapters,
-      });
-      return await tx.book.create({
+      const bookCreated = await tx.book.create({
         data: {
-          chapters: {
-            connect: chapters,
-          },
           title: book.title,
           userId,
         },
@@ -30,6 +24,13 @@ export class BooksService {
           title: true,
         },
       });
+      await tx.chapter.createManyAndReturn({
+        data: book.chapters.map((chapter) => ({
+          ...chapter,
+          bookId: bookCreated.id
+        })),
+      });
+      return bookCreated;
     });
   }
 
