@@ -25,9 +25,9 @@ export function Reader({ bookId, chapterNumber }: BookReaderProps) {
 
   if (isLoading) return;
   return (
-    <div className="max-w-[756] mb-16">
+    <div className="max-w-[756px] mb-16">
       {!chapter ? (
-        <h1>Not chapter found</h1>
+        <h1>No chapter found</h1>
       ) : (
         <>
           <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance mb-8">

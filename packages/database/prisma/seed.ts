@@ -92,31 +92,33 @@ async function main() {
     { title: "The Virtues of War" },
   ]);
 
-  const ryanSinger = await createAuthor("Ryan Singer");
-  const jsonText = await readFile(
-    new URL("./example-book.json", import.meta.url),
-    "utf-8",
-  );
-  const shapeUpChapters = JSON.parse(jsonText) as {
-    title: string;
-    number: number;
-    content: string;
-  }[];
-  const shapeUp = await prisma.book.create({
-    data: {
-      title: "Shape Up",
-      authors: {
-        connect: [{ id: ryanSinger.id }],
+  try {
+    const jsonText = await readFile(
+      new URL("./example-book.json", import.meta.url),
+      "utf-8",
+    );
+    const ryanSinger = await createAuthor("Ryan Singer");
+    const shapeUpChapters = JSON.parse(jsonText) as {
+      title: string;
+      number: number;
+      content: string;
+    }[];
+    const shapeUp = await prisma.book.create({
+      data: {
+        title: "Shape Up",
+        authors: {
+          connect: [{ id: ryanSinger.id }],
+        },
+        userId: john.id,
       },
-      userId: john.id,
-    },
-  });
-  await prisma.chapter.createMany({
-    data: shapeUpChapters.map((chapter) => ({
-      ...chapter,
-      bookId: shapeUp.id,
-    })),
-  });
+    });
+    await prisma.chapter.createMany({
+      data: shapeUpChapters.map((chapter) => ({
+        ...chapter,
+        bookId: shapeUp.id,
+      })),
+    });
+  } catch {}
 
   const richardFeynman = await createAuthor("Richard Feynman");
   const sixEasyPieces = await prisma.book.create({

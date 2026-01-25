@@ -11,8 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@repo/ui/components/dropdown-menu";
 import { MoreVertical } from "lucide-react";
-
-import { EditableTableCell } from "@/components/EditableTableCell";
+import Link from "next/link";
 
 import { BookDTO } from "./book.types";
 
@@ -26,8 +25,14 @@ export const getColumns = (
   {
     accessorKey: "title",
     cell: ({ row }) => (
-      // TODO: use this to allow renaming books inline
-      <EditableTableCell initialValue={row.getValue("title")} />
+      <div>
+        <Link
+          className="flex justify-between w-full"
+          href={`/books/${row.original.id}/chapters/1`}
+        >
+          {row.original.title}
+        </Link>
+      </div>
     ),
     header: () => <div className="text-left">Title</div>,
   },
