@@ -1,14 +1,16 @@
 import { Reader } from "@/features/books/Reader";
 
 interface BookReadingPageParams {
-  params: {
+  params: Promise<{
     id: string;
     number: string;
-  };
+  }>;
 }
 
-export default function BookReadingPage({ params }: BookReadingPageParams) {
-  const { id, number } = params;
+export default async function BookReadingPage({
+  params,
+}: BookReadingPageParams) {
+  const { id, number } = await params;
 
   return <Reader bookId={id} chapterNumber={Number(number)} />;
 }
