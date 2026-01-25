@@ -12,7 +12,7 @@ export interface paths {
             cookie?: never;
         };
         /** List all the books */
-        get: operations["BooksController_findAll"];
+        get: operations["BooksController_findAllForUser"];
         put?: never;
         /** Create a new book */
         post: operations["BooksController_create"];
@@ -22,7 +22,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/books/{bookId}": {
+    "/books/{id}/chapters/{number}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a chapter from a book */
+        get: operations["BooksController_findChapter"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/books/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -98,7 +115,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get informations about the logged in user */
+        /** Get informations about the logged in user */
         get: operations["UsersController_getCurrentUser"];
         put?: never;
         post?: never;
@@ -127,11 +144,41 @@ export interface components {
             /** @example The War of Art */
             title: string;
         };
-        /** @description DTO representing a book entity returned in API responses, including all book details except the chapters array. */
-        BookResponseDto: {
+        CreateBookResponseDto: {
             /** @example 6e426018-4251-4c2c-85db-23e8f9af19ae */
             id: string;
             /** @example The War of Art */
+            title: string;
+        };
+        ReducedChapterDto: {
+            /** @example 6 */
+            number: number;
+            /** @example Resistance Is Universal */
+            title: string;
+        };
+        /** @description DTO representing a book entity returned in API responses, including all book details except the chapters array. */
+        GetBookResponseDto: {
+            /** @example 6e426018-4251-4c2c-85db-23e8f9af19ae */
+            id: string;
+            /** @example The War of Art */
+            title: string;
+            chapters: components["schemas"]["ReducedChapterDto"][];
+        };
+        ChapterResponseDto: {
+            /**
+             * @description The content of the chapter
+             * @example Once upon a time, there was a yummy Tiramisu
+             */
+            content: string;
+            /**
+             * @description The chapter number
+             * @example 1
+             */
+            number: number;
+            /**
+             * @description The title of the chapter
+             * @example The joy of music
+             */
             title: string;
         };
         /** @description Login credentials */
@@ -183,7 +230,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    BooksController_findAll: {
+    BooksController_findAllForUser: {
         parameters: {
             query?: never;
             header?: never;
@@ -197,7 +244,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BookResponseDto"][];
+                    "application/json": components["schemas"]["GetBookResponseDto"][];
                 };
             };
             /** @description Internal server error */
@@ -227,11 +274,49 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BookResponseDto"];
+                    "application/json": components["schemas"]["CreateBookResponseDto"];
                 };
             };
             /** @description Invalid input */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BooksController_findChapter: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID of the book */
+                id: string;
+                /** @description Chapter number */
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChapterResponseDto"];
+                };
+            };
+            /** @description No chapter found for this book */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -252,7 +337,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description ID of the book */
-                bookId: string;
+                id: string;
             };
             cookie?: never;
         };
@@ -263,7 +348,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BookResponseDto"];
+                    "application/json": components["schemas"]["GetBookResponseDto"];
                 };
             };
             /** @description Book not found */
@@ -288,7 +373,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description ID of the book */
-                bookId: string;
+                id: string;
             };
             cookie?: never;
         };
@@ -410,13 +495,20 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["CurrentUserResponseDto"];
                 };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Internal server error */
             500: {

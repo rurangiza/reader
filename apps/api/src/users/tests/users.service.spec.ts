@@ -3,8 +3,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { randomUUID } from "crypto";
 
 import { DatabaseService } from "@/database/database.service";
-
-import { MAX_PASS_LENGTH, MIN_PASS_LENGTH, UsersService } from "./users.service"
+import { MAX_PASS_LENGTH, MIN_PASS_LENGTH, UsersService } from "@/users/users.service"
 
 interface FindUserParams {
   where: {

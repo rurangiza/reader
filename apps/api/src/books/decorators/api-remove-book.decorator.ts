@@ -1,4 +1,4 @@
-import { applyDecorators, HttpStatus } from '@nestjs/common';
+import { applyDecorators, HttpCode, HttpStatus } from '@nestjs/common';
 import {
   ApiNotFoundResponse,
   ApiOperation,
@@ -10,5 +10,6 @@ export function ApiRemoveBook() {
     ApiOperation({ summary: 'Delete a book by its ID' }),
     ApiNotFoundResponse({ description: 'Book not found' }),
     ApiResponse({ description: 'Book deleted', status: HttpStatus.NO_CONTENT }),
+    HttpCode(HttpStatus.NO_CONTENT)
   );
 }

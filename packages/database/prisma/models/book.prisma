@@ -22,6 +22,6 @@ model Chapter {
   content   String   @db.Text
   number    Int
   createdAt DateTime @default(now())
-  book      Book?    @relation(fields: [bookId], references: [id])
-  bookId    String?  @db.Uuid
+  book      Book     @relation(fields: [bookId], references: [id])
+  bookId    String   @db.Uuid
 }

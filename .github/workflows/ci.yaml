@@ -121,7 +121,6 @@ jobs:
           apt-get update -y && apt-get install -y openssl
           pnpm db:init
           pnpm db:generate
-          pnpm db:seed
       - name: Run E2E Tests
         env:
           POSTGRES_HOST: postgres

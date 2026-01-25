@@ -2,6 +2,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import * as bcrypt from "bcrypt";
 
 import { PrismaClient } from "../generated/prisma/client";
+import { readFile } from "node:fs/promises";
 
 const SALTORROUND = 12;
 
@@ -91,76 +92,33 @@ async function main() {
     { title: "The Virtues of War" },
   ]);
 
-  const uncleBob = await createAuthor("Uncle Bok");
-  const cleanCode = await prisma.book.create({
-    data: {
-      title: "Clean Code",
-      authors: {
-        connect: [{ id: uncleBob.id }],
-      },
-      userId: john.id,
-      chapters: {
-        createMany: {
-          data: [
-            {
-              content:
-                "Introduces the idea that code is read far more often than it is written, and that cleanliness directly impacts long-term development speed and quality.",
-              number: 1,
-              title: "Clean Code",
-            },
-            {
-              content:
-                "Explains how good names convey intent, avoid ambiguity, and reduce the need for comments or additional explanation.",
-              number: 2,
-              title: "Meaningful Names",
-            },
-            {
-              content:
-                "Argues for small, focused functions that do one thing, use descriptive names, and minimize side effects.",
-              number: 3,
-              title: "Functions",
-            },
-            {
-              content:
-                "Emphasizes that comments should explain why something exists, not what the code already makes clear.",
-              number: 4,
-              title: "Comments",
-            },
-            {
-              content:
-                "Shows how consistent formatting improves readability and communicates structure and intent to other developers.",
-              number: 5,
-              title: "Formatting",
-            },
-            {
-              content:
-                "Discusses the trade-offs between object-oriented designs and data-oriented approaches, and how to choose appropriately.",
-              number: 6,
-              title: "Objects and Data Structures",
-            },
-            {
-              content:
-                "Encourages treating error handling as a first-class concern, using exceptions and clear intent rather than scattered checks.",
-              number: 7,
-              title: "Error Handling",
-            },
-            {
-              content:
-                "Describes how well-designed classes are small, cohesive, and adhere to principles like the Single Responsibility Principle.",
-              number: 8,
-              title: "Classes",
-            },
-            {
-              content:
-                "Explores how clean code principles scale from small components to entire systems and architectures.",
-              number: 9,
-              title: "Systems",
-            },
-          ],
+  try {
+    const jsonText = await readFile(
+      new URL("./example-book.json", import.meta.url),
+      "utf-8",
+    );
+    const ryanSinger = await createAuthor("Ryan Singer");
+    const shapeUpChapters = JSON.parse(jsonText) as {
+      title: string;
+      number: number;
+      content: string;
+    }[];
+    const shapeUp = await prisma.book.create({
+      data: {
+        title: "Shape Up",
+        authors: {
+          connect: [{ id: ryanSinger.id }],
         },
+        userId: john.id,
       },
-    },
-  });
+    });
+    await prisma.chapter.createMany({
+      data: shapeUpChapters.map((chapter) => ({
+        ...chapter,
+        bookId: shapeUp.id,
+      })),
+    });
+  } catch {}
 
   const richardFeynman = await createAuthor("Richard Feynman");
   const sixEasyPieces = await prisma.book.create({
@@ -218,8 +176,6 @@ async function main() {
       },
     },
   });
-
-  console.log({ cleanCode, sixEasyPieces });
 }
 main()
   .then(async () => {
