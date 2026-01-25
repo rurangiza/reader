@@ -144,12 +144,25 @@ export interface components {
             /** @example The War of Art */
             title: string;
         };
-        /** @description DTO representing a book entity returned in API responses, including all book details except the chapters array. */
-        BookResponseDto: {
+        CreateBookResponseDto: {
             /** @example 6e426018-4251-4c2c-85db-23e8f9af19ae */
             id: string;
             /** @example The War of Art */
             title: string;
+        };
+        ReducedChapterDto: {
+            /** @example 6 */
+            number: number;
+            /** @example Resistance Is Universal */
+            title: string;
+        };
+        /** @description DTO representing a book entity returned in API responses, including all book details except the chapters array. */
+        GetBookResponseDto: {
+            /** @example 6e426018-4251-4c2c-85db-23e8f9af19ae */
+            id: string;
+            /** @example The War of Art */
+            title: string;
+            chapters: components["schemas"]["ReducedChapterDto"][];
         };
         ChapterResponseDto: {
             /**
@@ -231,7 +244,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BookResponseDto"][];
+                    "application/json": components["schemas"]["GetBookResponseDto"][];
                 };
             };
             /** @description Internal server error */
@@ -261,7 +274,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BookResponseDto"];
+                    "application/json": components["schemas"]["CreateBookResponseDto"];
                 };
             };
             /** @description Invalid input */
@@ -335,7 +348,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BookResponseDto"];
+                    "application/json": components["schemas"]["GetBookResponseDto"];
                 };
             };
             /** @description Book not found */

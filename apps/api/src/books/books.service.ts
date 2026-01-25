@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UUID } from 'crypto';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
@@ -27,7 +26,7 @@ export class BooksService {
       await tx.chapter.createManyAndReturn({
         data: book.chapters.map((chapter) => ({
           ...chapter,
-          bookId: bookCreated.id
+          bookId: bookCreated.id,
         })),
       });
       return bookCreated;
@@ -37,6 +36,16 @@ export class BooksService {
   async findAllForUser({ userId }: { userId: string }) {
     return await this.database.book.findMany({
       orderBy: { createdAt: 'desc' },
+      select: {
+        chapters: {
+          select: {
+            number: true,
+            title: true,
+          },
+        },
+        id: true,
+        title: true,
+      },
       where: {
         userId,
       },
@@ -49,13 +58,13 @@ export class BooksService {
         select: {
           content: true,
           number: true,
-          title: true
+          title: true,
         },
         where: {
           bookId,
           number: chapterNumber,
-        }
-      })
+        },
+      });
     } catch {
       throw new NotFoundException(
         `Chapter ${chapterNumber} not found in book ${bookId}`,
@@ -63,8 +72,18 @@ export class BooksService {
     }
   }
 
-  async findOne(id: UUID) {
+  async findOne(id: string) {
     const book = await this.database.book.findFirst({
+      select: {
+        chapters: {
+          select: {
+            number: true,
+            title: true,
+          },
+        },
+        id: true,
+        title: true,
+      },
       where: {
         id,
       },
@@ -75,7 +94,7 @@ export class BooksService {
     return book;
   }
 
-  async remove(id: UUID) {
+  async remove(id: string) {
     const book = await this.database.book.delete({
       where: {
         id,

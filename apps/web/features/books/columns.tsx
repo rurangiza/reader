@@ -1,5 +1,7 @@
 "use client";
 
+import type { ColumnDef } from "@tanstack/react-table";
+
 import { Button } from "@repo/ui/components/button";
 import {
   DropdownMenu,
@@ -8,7 +10,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@repo/ui/components/dropdown-menu";
-import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
 
 import { EditableTableCell } from "@/components/EditableTableCell";
