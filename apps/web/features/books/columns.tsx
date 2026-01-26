@@ -41,8 +41,8 @@ export const getColumns = (
       const book = row.original;
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className={`h-8 w-8 p-0 {}`} variant="ghost">
+          <DropdownMenuTrigger asChild className="flex justify-self-end">
+            <Button className={`h-8 w-8 p-0`} variant="ghost">
               <span className="sr-only">Open menu</span>
               <MoreVertical />
             </Button>
