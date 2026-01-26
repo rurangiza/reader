@@ -38,7 +38,7 @@ export function Library() {
 
   if (isLoading || !books) return;
   return (
-    <div className="container max-w-3xl ">
+    <div className="container w-full ">
       <DataTable columns={columns} data={books} />
     </div>
   );

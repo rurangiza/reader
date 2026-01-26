@@ -13,8 +13,8 @@ import {
   FieldLabel,
 } from "@repo/ui/components/field";
 import { Input } from "@repo/ui/components/input";
-import { Sidebar } from "@repo/ui/components/sidebar";
 import { Textarea } from "@repo/ui/components/textarea";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@repo/ui/components/tooltip";
 import { Plus } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -33,19 +33,38 @@ export function ChapterForm({ onSubmit }: ChapterFormProps) {
     resolver: zodResolver(bookChapterSchema.omit({ number: true })),
   });
   return (
-    <Sidebar className="w-140" side="right">
-      <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12"></header>
-      <CardHeader>
-        <CardTitle>Add a chapter</CardTitle>
-        <CardDescription>Copy paste your chapter here</CardDescription>
-      </CardHeader>
-      <CardContent className="mt-4">
+    <div className="w-full">
+      <CardContent className="mt-4 px-0">
         <form
           onSubmit={form.handleSubmit((e) => {
             form.reset();
             onSubmit(e);
           })}
         >
+          <div className="grid grid-cols-4 mb-4">
+            <CardHeader className="px-0 col-span-3">
+              <CardTitle>Add a chapter</CardTitle>
+              <CardDescription>Add at least one chapter to your book</CardDescription>
+            </CardHeader>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  className="px-0 mx-0"
+                  disabled={!form.formState.isValid}
+                  type="submit"
+                  variant={"secondary"}
+                >
+                  <Plus />
+                  Add chapter
+                </Button>
+              </TooltipTrigger>
+              {!form.formState.isValid && (
+                <TooltipContent>
+                  Complete the form below.
+                </TooltipContent>
+              )}
+            </Tooltip>
+          </div>
           <FieldGroup>
             <Controller
               control={form.control}
@@ -87,21 +106,9 @@ export function ChapterForm({ onSubmit }: ChapterFormProps) {
                 </Field>
               )}
             />
-            <div className="absolute bottom-4 left-12 bg-gray-100 shadow-[0_0_20px_15px_#FAFAFA]">
-              <Field className="w-fit">
-                <Button
-                  className=""
-                  disabled={!form.formState.isValid}
-                  type="submit"
-                >
-                  <Plus />
-                  Add chapter
-                </Button>
-              </Field>
-            </div>
           </FieldGroup>
         </form>
       </CardContent>
-    </Sidebar>
+    </div>
   );
 }

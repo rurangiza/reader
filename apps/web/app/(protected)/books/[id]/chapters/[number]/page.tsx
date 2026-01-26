@@ -1,4 +1,7 @@
+
+import { BackHomeButton } from "@/components/BackHomeButton";
 import { Reader } from "@/features/books/Reader";
+import { TableOfContents } from "@/features/books/TableOfContents";
 
 interface BookReadingPageParams {
   params: Promise<{
@@ -12,5 +15,13 @@ export default async function BookReadingPage({
 }: BookReadingPageParams) {
   const { id, number } = await params;
 
-  return <Reader bookId={id} chapterNumber={Number(number)} />;
+  return (
+    <div className="relative">
+      <TableOfContents bookId={id} chapterNumber={Number(number)} className="absolute right-full mr-10 z-10"/>
+      <div className="">
+        <BackHomeButton/>
+        <Reader bookId={id} chapterNumber={Number(number)} />
+      </div>
+    </div>
+  );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import Markdown from "react-markdown";
 
 import { $api } from "../api/client";
+import { Markdown } from "./Markdown";
 
 interface BookReaderProps {
   bookId: string;
@@ -33,23 +33,7 @@ export function Reader({ bookId, chapterNumber }: BookReaderProps) {
           <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance mb-8">
             {chapter.title}
           </h1>
-          <Markdown
-            components={{
-              h2: (props) => (
-                <h2
-                  className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
-                  {...props}
-                ></h2>
-              ),
-              h3: (props) => (
-                <h3
-                  className="scroll-m-20 text-2xl font-semibold tracking-tight"
-                  {...props}
-                ></h3>
-              ),
-              p: (props) => <p className="text-2xl/8" {...props}></p>,
-            }}
-          >
+          <Markdown>
             {chapter.content}
           </Markdown>
         </>

@@ -12,7 +12,6 @@ import {
 } from "@repo/ui/components/card";
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -34,7 +33,11 @@ import {
 } from "./book.upload.schema";
 import { ChapterForm } from "./ChapterForm";
 
-export function FormUpload() {
+type FormUploadProps = {
+  className?: string,
+}
+
+export function FormUpload({className}: FormUploadProps) {
   const form = useForm<BookUploadFormData>({
     defaultValues: {
       chapters: [],
@@ -61,7 +64,7 @@ export function FormUpload() {
       },
       onSuccess: async () => {
         await queryClient.invalidateQueries({ queryKey: ["get", "books"] });
-        router.push("/");
+        router.push("/books");
       },
     },
   );
@@ -81,7 +84,7 @@ export function FormUpload() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-8 h-dvh">
+    <div className={className}>
       <div>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-4">
@@ -89,13 +92,11 @@ export function FormUpload() {
               <CardTitle>Upload your book</CardTitle>
               <CardDescription>Enter a title and add chapters.</CardDescription>
             </CardHeader>
-            <Field className="w-fit justify-self-end">
-              <Button disabled={!form.formState.isValid} type="submit">
-                {isUploading && <Spinner />}
-                <Upload />
-                Upload
-              </Button>
-            </Field>
+            <Button disabled={!form.formState.isValid} type="submit" variant={form.formState.isValid ? "default" : "secondary"}>
+              {isUploading && <Spinner />}
+              <Upload />
+              Upload
+            </Button>
           </div>
           <CardContent className="px-0">
             <FieldGroup className="mb-4">
@@ -121,25 +122,6 @@ export function FormUpload() {
               />
             </FieldGroup>
             <FieldGroup className="gap-2 mb-8 mt-8">
-              <FieldLabel className="mb-0 pb-0">Chapters</FieldLabel>
-              <FieldDescription className="pt-0 mt-0">
-                Add at least one chapter to your book
-              </FieldDescription>
-              <FieldError
-                errors={
-                  form.formState.errors.chapters
-                    ? [
-                        {
-                          message: (
-                            form.formState.errors.chapters as {
-                              message?: string;
-                            }
-                          ).message,
-                        },
-                      ]
-                    : undefined
-                }
-              />
               {fields.map((item, index) => (
                 <Card
                   className="flex-row items-center px-4 py-4 mb-4"
