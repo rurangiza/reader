@@ -1,10 +1,13 @@
+import type { CSSProperties } from "react";
 import type { Components } from "react-markdown";
 
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneLight as prismDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 
+const dark: Record<string, CSSProperties> = prismDark;
 
 export function Markdown({children}: {children: string}) {
   const components: Components = {
@@ -25,13 +28,23 @@ export function Markdown({children}: {children: string}) {
 
       if (match) {
         return (
-          <SyntaxHighlighter
-            language={match[1]}
-            PreTag="div"
-            showLineNumbers
-          >
-            {normalizedCode}
-          </SyntaxHighlighter>
+          <div className="bg-[#FAFAFA] border-1 rounded-sm p-4 my-4">
+            <SyntaxHighlighter
+              customStyle={{
+                backgroundColor: "transparent",
+                fontSize: ".9rem",
+                margin: 0,
+                overflow: "hidden",
+                padding: 0
+              }}
+              language={match[1]}
+              PreTag="div"
+              showLineNumbers
+              style={dark}
+            >
+              {normalizedCode}
+            </SyntaxHighlighter>
+          </div>
         );
       }
 
@@ -53,7 +66,7 @@ export function Markdown({children}: {children: string}) {
     ),
     h2: (props) => (
       <h2
-        className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0"
+        className="scroll-m-20 pb-2 text-3xl/12 font-semibold tracking-tight first:mt-0"
         {...props}
       ></h2>
     ),
@@ -63,7 +76,7 @@ export function Markdown({children}: {children: string}) {
         {...props}
       ></h3>
     ),
-    p: (props) => <p className="text-2xl/8" {...props}></p>,
+    p: (props) => <p className="text-2xl/10" {...props}></p>,
     table: (props) => (
       <div className="my-6 w-full overflow-y-auto">
         <table className="w-full" {...props}></table>
