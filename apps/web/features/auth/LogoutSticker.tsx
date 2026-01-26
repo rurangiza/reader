@@ -1,13 +1,13 @@
 "use client";
 
-import { DropdownMenuItem } from "@repo/ui/components/dropdown-menu";
+import { Button } from "@repo/ui/components/button";
 import { toast } from "@repo/ui/components/sonner";
-import { LogOut as LogOutIcon } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { $api } from "@/features/api/client";
+import { $api } from "../api/client";
 
-export function LogouOutMenuItem() {
+export function LogoutSticker() {
   const router = useRouter();
 
   const { mutate: triggerLogout } = $api.useMutation("post", "/auth/logout", {
@@ -28,9 +28,9 @@ export function LogouOutMenuItem() {
     triggerLogout({});
   }
   return (
-    <DropdownMenuItem onClick={handleLogout}>
-      <LogOutIcon />
-      Log out
-    </DropdownMenuItem>
-  );
+  <Button className="fixed right-4 top-2 cursor-pointer hover:bg-transparent text-gray-400" onClick={handleLogout} variant={"ghost"}>
+    Logout
+    <LogOut/>
+  </Button>
+  )
 }

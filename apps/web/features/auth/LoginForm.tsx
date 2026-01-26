@@ -62,7 +62,7 @@ export function LoginForm({
     },
     onSuccess: () => {
       // assumes the auth token was added in headers
-      router.push("/");
+      router.push("/books");
     },
   });
 
