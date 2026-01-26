@@ -17,7 +17,7 @@ export default async function BookReadingPage({
 
   return (
     <div className="relative">
-      <TableOfContents bookId={id} chapterNumber={Number(number)} className="absolute top-9 right-full mr-10 z-10"/>
+      <TableOfContents bookId={id} chapterNumber={Number(number)} className="absolute right-full mr-10 z-10"/>
       <div className="">
         <BackHomeButton/>
         <Reader bookId={id} chapterNumber={Number(number)} />

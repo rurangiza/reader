@@ -27,10 +27,10 @@ export function TableOfContents({bookId, chapterNumber, className}: TableOfConte
       {openedBook && (
         <div className={`w-64 max-h-[calc(100vh-6rem)] overflow-auto ${className ?? ""}`}>
           <p className="text-right text-xl mb-2 font-bold">{openedBook.title.toUpperCase()}</p>
-          <p className="text-right">Table of Contents</p>
+          <p className="text-right mt-4 mb-2 font-medium">Table of Contents</p>
           {openedBook.chapters.map((chapter) => {
-              return <Link className={`block text-right hover:text-stone-900 ${chapterNumber === chapter.number ? "text-stone-900" : "text-stone-400"}`} href={`/books/${bookId}/chapters/${chapter.number}`} key={chapter.number}>
-                  {chapter.title}
+              return <Link className={`block mb-2 text-right hover:text-stone-900 ${chapterNumber === chapter.number ? "text-stone-900" : "text-stone-400"}`} href={`/books/${bookId}/chapters/${chapter.number}`} key={chapter.number}>
+                    {chapter.title}
                 </Link>
             })}
         </div>
