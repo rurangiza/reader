@@ -23,6 +23,7 @@ CREATE TABLE "Chapter" (
     "id" UUID NOT NULL,
     "title" VARCHAR(64) NOT NULL,
     "content" TEXT NOT NULL,
+    "readTime" INTEGER NOT NULL,
     "number" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "bookId" UUID NOT NULL,

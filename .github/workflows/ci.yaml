@@ -9,7 +9,7 @@ jobs:
     name: detect_changes
     runs-on: ubuntu-latest
     outputs:
-      api_e2e: ${{ steps.filter.outputs.changes }}
+      api_changes: ${{ steps.filter.outputs.api_changes }}
 
     steps:
       - name: Checkout repository (full history)

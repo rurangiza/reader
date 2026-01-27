@@ -115,6 +115,7 @@ async function main() {
     await prisma.chapter.createMany({
       data: shapeUpChapters.map((chapter) => ({
         ...chapter,
+        readTime: 4,
         bookId: shapeUp.id,
       })),
     });
@@ -140,36 +141,42 @@ async function main() {
                 "Explains the origin of the book from Feynman’s lectures and his goal of conveying the spirit of physics rather than formal derivations.",
               number: 1,
               title: "Preface",
+              readTime: 4,
             },
             {
               content:
                 "Introduces gravity as a universal interaction, highlighting Newton’s insight and the mystery behind why masses attract each other.",
               number: 2,
               title: "The Law of Gravitation",
+              readTime: 4,
             },
             {
               content:
                 "Discusses mathematics as the language of nature, emphasizing its power to describe physical laws despite its abstract origins.",
               number: 3,
               title: "The Relation of Mathematics to Physics",
+              readTime: 4,
             },
             {
               content:
                 "Explores fundamental conservation laws, such as energy and momentum, as deep invariants that govern all physical processes.",
               number: 4,
               title: "The Great Conservation Principles",
+              readTime: 3,
             },
             {
               content:
                 "Shows how symmetry principles guide modern physics and reveal what remains unchanged when systems are transformed.",
               number: 5,
               title: "Symmetry in Physical Laws",
+              readTime: 7,
             },
             {
               content:
                 "Introduces the strange and counterintuitive nature of quantum mechanics, focusing on probability, uncertainty, and measurement.",
               number: 6,
               title: "Quantum Behavior",
+              readTime: 6,
             },
           ],
         },

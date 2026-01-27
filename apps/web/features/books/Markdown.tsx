@@ -9,7 +9,12 @@ import remarkGfm from "remark-gfm";
 
 const dark: Record<string, CSSProperties> = prismDark;
 
-export function Markdown({children}: {children: string}) {
+type MarkdownProps = {
+  children: string,
+  className?: string,
+}
+
+export function Markdown({children, className}: MarkdownProps) {
   const components: Components = {
     blockquote: (props) => (
       <blockquote
@@ -34,7 +39,8 @@ export function Markdown({children}: {children: string}) {
                 backgroundColor: "transparent",
                 fontSize: ".9rem",
                 margin: 0,
-                overflow: "hidden",
+                overflowX: "auto",
+                overflowY: "auto",
                 padding: 0
               }}
               language={match[1]}
@@ -104,5 +110,7 @@ export function Markdown({children}: {children: string}) {
       ></ul>
     ),
   };
-  return <ReactMarkdown components={components} remarkPlugins={[remarkGfm]}>{children}</ReactMarkdown>
+  return (<div className={className}>
+    <ReactMarkdown components={components} remarkPlugins={[remarkGfm]}>{children}</ReactMarkdown>
+  </div>)
 }

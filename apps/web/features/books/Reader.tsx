@@ -1,6 +1,8 @@
 "use client";
 
 
+import { Timer } from "lucide-react";
+
 import { $api } from "../api/client";
 import { Markdown } from "./Markdown";
 
@@ -30,10 +32,13 @@ export function Reader({ bookId, chapterNumber }: BookReaderProps) {
         <h1>No chapter found</h1>
       ) : (
         <>
-          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance mb-8">
+          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance mb-4">
             {chapter.title}
           </h1>
-          <Markdown>
+          <div className="flex items-center text-stone-600">
+            <Timer className="mr-2" size={20}/>{chapter.readTime === 0 ? 1 : chapter.readTime} min read
+          </div>
+          <Markdown className="mt-4">
             {chapter.content}
           </Markdown>
         </>
