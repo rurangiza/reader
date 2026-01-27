@@ -21,6 +21,7 @@ describe("BooksService", () => {
       {
         content: "nothing",
         number: 1,
+        readTime: 4,
         title: "Age of tomorrow"
       }
     ],
@@ -67,6 +68,7 @@ describe("BooksService", () => {
         select: {
           content: true,
           number: true,
+          readTime: true,
           title: true,
         },
         where: {
