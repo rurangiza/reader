@@ -18,7 +18,8 @@ const MOCK_BOOK = {
     {
       content: "Hello",
       number: 1,
-      title: "Uno"
+      readTime: 6,
+      title: "Uno",
     }
   ],
   title: "The information age"

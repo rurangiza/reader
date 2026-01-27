@@ -176,6 +176,11 @@ export interface components {
              */
             number: number;
             /**
+             * @description Read time in minutes
+             * @example 4
+             */
+            readTime: number;
+            /**
              * @description The title of the chapter
              * @example The joy of music
              */

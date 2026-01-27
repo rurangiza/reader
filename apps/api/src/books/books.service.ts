@@ -1,5 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import countWords from "lodash.words"
 import { DatabaseService } from 'src/database/database.service';
+
+const AVERAGE_READING_SPEED_WPM = 275;
 
 @Injectable()
 export class BooksService {
@@ -27,6 +30,7 @@ export class BooksService {
         data: book.chapters.map((chapter) => ({
           ...chapter,
           bookId: bookCreated.id,
+          readTime: countWords(chapter.content).length / AVERAGE_READING_SPEED_WPM,
         })),
       });
       return bookCreated;
@@ -40,6 +44,7 @@ export class BooksService {
         chapters: {
           select: {
             number: true,
+            readTime: true,
             title: true,
           },
         },
@@ -58,6 +63,7 @@ export class BooksService {
         select: {
           content: true,
           number: true,
+          readTime: true,
           title: true,
         },
         where: {
@@ -78,6 +84,7 @@ export class BooksService {
         chapters: {
           select: {
             number: true,
+            readTime: true,
             title: true,
           },
         },

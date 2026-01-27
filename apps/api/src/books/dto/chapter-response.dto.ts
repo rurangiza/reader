@@ -18,6 +18,14 @@ export class ChapterResponseDto {
   @IsNumber()
   @Type(() => Number)
   number!: number;
+
+  @ApiProperty({
+    description: "Read time in minutes",
+    example: 4,
+    type: Number
+  })
+  @IsNumber()
+  readTime!: number;
   
   @ApiProperty({
     description: "The title of the chapter",

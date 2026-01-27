@@ -20,6 +20,7 @@ model Chapter {
   id        String   @id @default(uuid()) @db.Uuid
   title     String   @db.VarChar(64)
   content   String   @db.Text
+  readTime  Int
   number    Int
   createdAt DateTime @default(now())
   book      Book     @relation(fields: [bookId], references: [id])
